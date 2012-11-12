@@ -1,0 +1,4 @@
+stigmergy
+=========
+
+stigmergic social network
