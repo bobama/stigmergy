@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+<div class="darkabout">
+<h1><a class="aboutheader">{% trans "Being a STIGMERGY member" %}</a></h1>
+<p>{% trans "After registration, you'll be randomly assigned a number of contacts within the STIGMERGY network. About half will be from your local area, and the others will be from the rest of the world, according to your language preferences. This is your initial network." %}</p>
+<p>{% trans "Explore! Get in touch with your new comrades using their contact details. Once you feel comfortable, you should meet your local contacts offline." %}</p>
+<p>{% trans "It is up to STIGMERGY members to decide how to organize their support communities. Talk to your contacts, and find common cause among your peers. If there is anyone you cannot work with, there is also a facility for replacing a contact." %}</p>
+
+<h1><a class="aboutheader">{% trans "Guidelines" %}</a></h1>
+<ul>
+   <li>{% trans "Security starts at home: Protect yourself. Safeguard your privacy with software and good sense." %}</li>
+   <li>{% trans "Security is not a one-man show: Protect your friends. Keep their information private." %}</li>
+   <li>{% trans "Keep copies of your friends' contact information offline, so that if something happens to STIGMERGY's website, you will still be in touch." %}</li>
+   <li>{% trans "Encourage good ideas and good people, and good people will support your good ideas." %}</li>
+   <li>{% trans "Be realistic: Don't take on work you can't possibly do. You will only make STIGMERGY less efficient if you do." %}</li>
+   <li>{% trans "Use the network. Ask your friends to pass on information to their contacts, and their contacts' contacts. Information can spread very fast in a network like this if it needs to." %}</li>
+   <li>{% trans "Encourage a society of mutual respect and dignity. Apply the golden rule: treat others as you would wish to be treated. Intellectual difference is to be cherished. Agree to disagree, and always look to discover your shared interests and beliefs. " %}</li>
+   <li>{% trans "Keep it legal. Don't put yourself and others at risk." %}</li>
+</ul>
+</div>
+{% endblock %}
+

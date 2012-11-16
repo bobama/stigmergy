@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+
+<p>
+<h3>
+{% trans "Your profile has been deleted." %}
+</h3>
+</p>
+<p>
+<h3>
+   <a href="{% url content.views.home %}">{% trans "Back to STIGMERGY home" %}</a>
+</h3>
+</p>
+
+{% endblock %}

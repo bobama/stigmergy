@@ -1,0 +1,241 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+
+<script src="{{STATIC_URL}}/js/register.js"></script>
+
+{% if error_message %}
+<p class="alert-message error">{{ error_message }}</p>
+{% endif %}
+
+{% if not token_used_already %}
+<div>
+   <form id="normalform" action="{% url user.views.new_submit %}" method="post">
+      {% csrf_token %}
+
+      <div id="step1">
+         <h3>{% trans "Select the languages you would like your 6 international friends to speak" %}</h3>
+         <div class="alert-message block-message info">
+            <p>
+            {% trans "We're going find you six international friends in the languages you specify." %}
+            <a id="select-languages-info" rel="twipsy" title="{% trans "For example, if you select en, en, fr, fr, de, en, you will have 3 english-speaking global contacts, 2 french speaking and one german speaking" %}" href="#">(?)</a>
+            </p>
+         </div>
+         <div>
+            <p id="step1error" style="display:none;" class="alert-message error"></p>
+         </div>
+         {% include "partials/lang_select_table.html" %}
+         <input id="step1submit" type="submit" value="{% trans "next step" %} (2/{{ numSteps }})" class="btn success" />
+      </div>
+
+      <div id="step2" style="position: absolute; left: -10000px;">
+         <div id="geocodeorigprompt">
+            <h3>{% trans "Approximate Location" %}</h3>
+         </div>
+         <div class="alert-message block-message info">
+            <p>
+            {% trans "We will find friends for you in your local area." %}
+            <a id="local-area-info" rel="twipsy" title="{% trans "6 people who are located close enough for you to meet up with. Your location will be offset by a distance of about one kilometer in a random direction on submission so as to not reveal your exact position." %}" href="#">(?)</a>
+            {% trans "If you live in a remote location, you may wish to enter a location sufficiently far from where you live as to not uniquely identify your location." %} 
+            </p>
+         </div>
+         <div>
+            <p id="step2error" style="display:none;" class="alert-message error"></p>
+         </div>
+
+         <div class="row">
+            <div class="span10 columns">
+               <h3>{% trans "Is this within 10 minutes travel from your location?" %}</h3>
+               <table class="zebra-striped">
+                  <tr>
+                     <td id="geocodetown">{{ cityDict.city }}, {{ cityDict.country_name }}</td>
+                  </tr>
+                  <tr style="display:none">
+                     <td>{% trans "Longitude" %}</td>
+                     <td id="geocodelongitude">{{ cityDict.longitude }}</td>
+                  </tr>
+                  <tr style="display:none">
+                     <td>{% trans "Latitude" %}</td>
+                     <td id="geocodelatitude">{{ cityDict.latitude }}</td>
+                  </tr>
+               </table>
+               <div id="step2yesno">
+                  <input id="step2no" type="submit" value="{% trans "No" %}" class="btn"/>
+                  <input id="step2yes" type="submit" value="{% trans "Yes" %}" class="btn success"/>
+               </div>
+               <div id="step2control" style="display:none;">
+                  <div id="geocodenewprompt">
+                     <h3>{% trans "Enter your approximate location:" %}
+                     <a id="enter-location-info" rel="twipsy" title="{% trans "Please enter a suburb, small town, or nearby street. Please do not put a large metropolis such as Tokyo; a smaller locality would be more useful." %}" href="#">(?)</a>
+                     </h3>
+                     <p>
+                        <input id="geocodeaddress" type="text" value="{{ cityDict.city }}, {{ cityDict.country_name }}" />
+                        <input id="geocodesubmit" type="submit" value="{% trans "Show on map" %}" class="btn info" />
+                     </p>
+                     <p>
+                        {% trans "...or double click on the map" %}
+                     </p>
+                  </div>
+               </div>
+               <br/>
+               <br/>
+               <br/>
+               {% if LANGUAGE_BIDI %}
+               <input id="step2submit" type="submit" value="{% trans "next step" %} (3/{{ numSteps }})" class="btn success" style="display:none;" />
+               <input id="step2previous" type="submit" value="{% trans "previous step" %}" class="btn small"/>
+               {% else %}
+               <input id="step2previous" type="submit" value="{% trans "previous step" %}" class="btn small"/>
+               <input id="step2submit" type="submit" value="{% trans "next step" %} (3/{{ numSteps }})" class="btn success" style="display:none;" />
+               {% endif %}
+            </div>
+            <div class="span6 columns">
+               <p style="visibility:hidden; color:red;" id="pointerMoveWarning">{% trans "To move the pointer, please enter another location in the text field or double click on the map." %}</p>
+               <div id="map_canvas"></div>
+            </div>
+         </div>
+
+      </div>
+
+      <div id="step3" style="display:none;">
+         <h3>{% trans "Tell others how to contact you" %}</h3>
+         <div>
+            <p id="step3error" style="display:none;" class="alert-message error"></p>
+         </div>
+         <div class="alert-message block-message info">
+            <p>{% trans "Write down all contact details that you would like your new friends in the network to see. Your contact information will be visible to your friends only. You can supply additional information regarding each contact method, such as preference, when to contact you and what steps to take. You can also include chat channels, Blackberry PINs, BBM, fingerprints, PGP keys or meeting instructions here." %} </p>
+         </div>
+         <div>
+            <textarea id="contact_info_textarea" style="height:200px; width:99%" value="">
+            </textarea>
+         </div>
+         <br/>
+         <h3>{% trans "A short passage about yourself and why you want to join STIGMERGY" %}</h3>
+         <div class="alert-message block-message info">
+         <p>{% trans "This is to ensure that you're a genuine member, as well as providing your other contacts with a little information about yourself. You can include anything you like, so long as it's 100-400 words. Don't worry, there's no need to include personally identifying information about yourself. This would be a good place to list any skills or training which you feel might be of benefit to your involvement with STIGMERGY." %} <a id="skills-info" rel="twipsy" title="{% trans "For example any of the following: coding, graphic design, legal training, event management, writing skills, etc." %}" href="#">(?)</a> {% trans "A couple of paragraphs on your beliefs, values, opinions, and why you want to join would also be appropriate." %} </p>
+         </div>
+         <div>
+            <textarea id="about_me_textarea" style="height:200px; width:99%" value="">
+            </textarea>
+         </div>
+         <br/>
+         <div class="alert-message block-message info">
+            <p>{% trans "Remember to give this information in all the languages that you speak, so that all your  contacts, who might only speak their native language, will be able to read it!" %} </p>
+         </div>
+
+         <br/>
+         {% if LANGUAGE_BIDI %}
+         <input id="step3submit" type="submit" value="{% trans "next step" %} (4/{{ numSteps }})" class="btn success"/>
+         <input id="step3previous" type="submit" value="{% trans "previous step" %}" class="btn small"/>
+         {% else %}
+         <input id="step3previous" type="submit" value="{% trans "previous step" %}" class="btn small"/>
+         <input id="step3submit" type="submit" value="{% trans "next step" %} (4/{{ numSteps }})" class="btn success"/>
+         {% endif %}
+      </div>
+
+      
+      
+      <div id="step4" style="display:none;">
+                  <h3>{% trans "Your Secure Login Key" %}</h3>
+         <div>
+            <p id="step4error" style="display:none;" class="alert-message error"></p>
+         </div>
+         <div class="alert-message block-message error">
+            <p>{% trans "See the numbers and letters in the box below? YOU MUST WRITE THEM DOWN on a card and place it in your wallet." %} </p>
+            <br />
+            <p>{% trans "The numbers and letters in the box below form your handy secure login key. This is ALL you will use to login! If you lose it your account will be FOREVER LOST. Store it in your wallet. For extra security, in two halves." %} <a href="#" id="encryption-info" style="color:#0069DF;" rel="popover" title="{% trans "Profile Encryption" %}" data-content="{% trans "To ensure the highest standards of data protection, your entire account will be encrypted, with your login key as the encryption key. Without it, your account cannot be read or changed by anyone, not even us. So resetting the login key is impossible." %}">(?)</a></p>
+         </div>
+         <div class="alert-message block-message alert">
+            <img width="960px" height="90px" src="/static/img/pleasewriteitdown.gif" z-index="2" style="position:absolute; margin-left:-20px; margin-top:-32px;">
+            <center><h1 id="loginphrase" style="margin-bottom:0px;">{{ loginphrase|slice:"0:4" }}&nbsp;{{ loginphrase|slice:"4:8" }}&nbsp;{{ loginphrase|slice:"8:12" }}&nbsp;{{ loginphrase|slice:"12:16" }}</h1></center>
+         </div>
+         <span id="hidden_loginphrase" style="display:none;">{{ loginphrase }}</span>
+         <br/>
+         {% if LANGUAGE_BIDI %}
+         <input id="step4submit" type="submit" value="{% trans "next step" %} (5/{{ numSteps }})" class="btn success"/>
+         <input id="step4previous" type="submit" value="{% trans "previous step" %}" class="btn small"/>
+         {% else %}
+         <input id="step4previous" type="submit" value="{% trans "previous step" %}" class="btn small"/>
+         <input id="step4submit" type="submit" value="{% trans "next step" %} (5/{{ numSteps }})" class="btn success"/>
+         {% endif %}
+      </div>
+      
+      <div id="step5" style="display:none;">
+         <div>
+            <p id="step5error" style="display:none;" class="alert-message error"></p>
+         </div>
+
+         <h3>{% trans "Do you want to receive information from us?" %}</h3>
+         <table class="zebra-striped">
+            <tr>
+               <td style="text-align:right;"><input id="allow_email" type="checkbox" name="allow_email" value=1 checked=checked /></td>
+               <td><label for="allow_email" style="width:auto; float:none;">{% trans "Tick this box if you want to receive emails about important updates and your account. If, for security reasons, you do not want to receive email communication then do not check this box." %}</label></td>
+            </tr>
+            <tr class="emailline">
+               <td>{% trans "Email" %}</td>
+               <td><input id="step5email" type="text" name="email" /></td>
+            </tr>
+         </table>
+         <h3>{% trans "Please enter the letters you can see in the picture below" %}</h3>
+         <div class="alert-message block-message info">
+         <p>{% trans "To verify that you are a human being, please type the letters you see in the picture below into the box." %} <a id="captcha-info" rel="twipsy" title="{% trans "This 'captcha' is a way of keeping our website secure from attacks." %}" href="#">(?)</a></p>
+         </div>
+         {% if DEBUG %}DEBUG MODE: Ignore captcha later<input id="ignorecaptcha" type="checkbox" name="ignorecaptcha" value=1 checked=checked> <br/>{% endif %}
+         <div id="captcha">
+            {% for field in captcha %}
+               {{ field }}
+            {% endfor %}
+         </div>
+         <br /><a style="font-size:0.7em;" id="refreshCaptcha" href="#">{% trans "I can't read that!" %}</a><br /><br />
+         
+         {% if LANGUAGE_BIDI %}
+         <input id="step5submit" type="submit" value="{% trans "Complete my registration!" %}" class="btn large success"/>
+         <input id="step5previous" type="submit" value="{% trans "previous step" %}" class="btn small"/>
+         {% else %}
+         <input id="step5previous" type="submit" value="{% trans "previous step" %}" class="btn small"/>
+         <input id="step5submit" type="submit" value="{% trans "Complete my registration!" %}" class="btn large success"/>
+         {% endif %}
+      </div>
+   
+      <div id="pleaseWait" style="display:none;">
+         <div class="alert-message success">
+            <br /><p style="font-size:1.3em;">{% blocktrans %}Thank you for registering with STIGMERGY!{% endblocktrans %}</p>
+            <br />
+            <br />
+            <p style="font-size:1.1em;">
+               {% trans "We assign friends about once a week so please keep checking to see who your new contacts are. Please do not log in for about 5 minutes as your account is still being encrypted." %}
+            </p>
+         </div>
+      </div>
+      
+      <input id="town" type="hidden" name="town" />
+      <input id="longitude" type="hidden" name="longitude" />
+      <input id="latitude" type="hidden" name="latitude" />
+      <input id="about_me" type="hidden" name="about_me" />
+      <input id="contact_info" type="hidden" name="contact_info" />
+
+      <input id="step" type="hidden" value="{{ step }}"/>
+
+   </form>
+</div>
+
+<div id="errormsgs" style="display:none">
+   <span id="emailNotValid">{% trans "That is not a valid email address" %}</span>
+   <span id="emailTooLong">{% trans "The email address is too long" %}</span>
+   <span id="captchaFailed">{% trans "Your entry does not match the captcha, please try again." %}</span>
+
+   <span id="aboutMeEmpty">{% trans "Please enter some 'about me' information" %}</span>
+   <span id="contactMeEmpty">{% trans "Please enter some 'contact me' information" %}</span>
+   <span id="tooMuchInfo">{% trans "Sorry, this is a little too much information for us to handle!" %}</span>
+   <span id="confirmBoxOne">{% trans "Have you remembered to write all your details and information in all of your chosen languages?" %}</span>
+   
+   <span id="phrasePrompt">{% trans "To make sure you have written down your secure login key correctly, please enter it here." %}</span>
+   <span id="phraseError">{% trans "Wrong. You will NOT be able to log in without this key!" %}</span>
+   
+   <span id="stayOnPageAlert">{% trans "Are you sure you want to leave this page and risk loss of the data you entered?" %}</span>
+</div>
+<div style="display:none; position:absolute;" id="loadingGif"><img src="{{STATIC_URL}}/img/loading.gif" alt="loading..." title="loading..." /></div>
+
+{% endif %}
+{% endblock %}

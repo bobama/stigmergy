@@ -1,0 +1,1020 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-11-16 09:16-0600\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: accounts/views.py:122 templates/500.html:43 templates/header.html:52
+#: templates/content/index.html:19
+msgid "Login"
+msgstr ""
+
+#: accounts/views.py:130 templates/registration/logged_out.html:8
+msgid "You have been logged out."
+msgstr ""
+
+#: accounts/views.py:171
+msgid "Delete Profile"
+msgstr ""
+
+#: accounts/views.py:200
+msgid "Profile Deleted"
+msgstr ""
+
+#: accounts/views.py:207
+msgid "Wrong password."
+msgstr ""
+
+#: accounts/views.py:225
+msgid "IMPORTANT"
+msgstr ""
+
+#: content/token.py:109 content/views.py:66
+msgid "Welcome to STIGMERGY!"
+msgstr ""
+
+#: content/token.py:110
+msgid "<prj_subtitle>"
+msgstr ""
+
+#: templates/404.html:8
+#, python-format
+msgid ""
+"Page not found. Email us at <a href=\"mailto:%(emailaddress)s\">"
+"%(emailaddress)s</a> if you found a dead link!"
+msgstr ""
+
+#: templates/500.html:8 templates/500.html.py:33 templates/header.html:8
+#: templates/header.html.py:43 templates/maintenance.html:5
+msgid "STIGMERGY"
+msgstr ""
+
+#: templates/500.html:39 templates/footer.html:16 templates/header.html:49
+#: templates/content/index.html:18
+msgid "Sign Up"
+msgstr ""
+
+#: templates/500.html:48 templates/header.html:57
+msgid "Profile"
+msgstr ""
+
+#: templates/500.html:51 templates/header.html:60
+msgid "Edit Profile"
+msgstr ""
+
+#: templates/500.html:54 templates/header.html:63
+msgid "Logout"
+msgstr ""
+
+#: templates/500.html:60 templates/header.html:69
+msgid "Language"
+msgstr ""
+
+#: templates/500.html:72
+#, python-format
+msgid ""
+"Internal Server Error. Email us at  <a href=\"mailto:%(emailaddress)s\">"
+"%(emailaddress)s</a>  and tell us what you tried to do!"
+msgstr ""
+
+#: templates/coming_soon.html:8
+msgid ""
+"This feature is not enabled yet, but check back soon to see STIGMERGY in "
+"action!"
+msgstr ""
+
+#: templates/footer.html:9
+msgid "About STIGMERGY"
+msgstr ""
+
+#: templates/footer.html:12
+msgid "Info for Members"
+msgstr ""
+
+#: templates/footer.html:20
+msgid "FAQ"
+msgstr ""
+
+#: templates/footer.html:26
+#, python-format
+msgid ""
+"Report problems to <a href=\"mailto:%(emailaddress)s\">%(emailaddress)s</a>"
+msgstr ""
+
+#: templates/header.html:80
+msgid "This translation might not be complete yet. Use with care!"
+msgstr ""
+
+#: templates/header.html:94
+msgid "You need to enable JavaScript to use all the features of this website."
+msgstr ""
+
+#: templates/maintenance.html:33
+msgid "The STIGMERGY site is currently undergoing routine maintenance."
+msgstr ""
+
+#: templates/not_yet_encrypted.html:8
+msgid ""
+"Your account is now being encrypted. When it is done, you can log in with "
+"your new secure login key. Please do not log in for at least 5 minutes, as "
+"the encryption may take some time to complete."
+msgstr ""
+
+#: templates/splash.html:79 templates/splash_no_tokens.html:56
+msgid "Translations are still in progress..."
+msgstr ""
+
+#: templates/splash.html:84
+msgid "Enter your registration token here:"
+msgstr ""
+
+#: templates/splash.html:90
+msgid "Language: "
+msgstr ""
+
+#: templates/content/all_content.html:7
+msgid "Join STIGMERGY"
+msgstr ""
+
+#: templates/content/all_content.html:9
+msgid ""
+"Sign up today! It doesn't take long. Your privacy is a core concern, so none "
+"of the information we ask you for need uniquely identify you. For privacy, "
+"you can sign up over <a href=\\"
+msgstr ""
+
+#: templates/content/all_content.html:13
+#, python-format
+msgid ""
+"To join, just click on the <a href=\"%(signup)s\">Sign Up</a> button, and "
+"we'll guide you through the rest."
+msgstr ""
+
+#: templates/content/all_content.html:15
+msgid "How is STIGMERGY different?"
+msgstr ""
+
+#: templates/content/all_content.html:17
+msgid ""
+"STIGMERGY gives you new friends to instantly build a mass global movement. "
+"Unlike traditional social networks, STIGMERGY is hardened against "
+"surveillance and attack. The primary spaces for online activism are watched "
+"by private and state intelligence agencies. STIGMERGY is built to counter "
+"this."
+msgstr ""
+
+#: templates/content/all_content.html:20
+msgid ""
+"By design your details are encrypted, and hidden from everyone except your "
+"immediate contacts. Even we can't access them."
+msgstr ""
+
+#: templates/content/all_content.html:23
+msgid ""
+"Connected by STIGMERGY, members will communicate how ever they like, "
+"including using secure person-to-person methods. As the network grows away "
+"from the site infrastructure, it becomes autonomous and decentralized, "
+"opaque to observers and impossible to compromise."
+msgstr ""
+
+#: templates/content/faq.html:7
+msgid "Frequently Asked Questions"
+msgstr ""
+
+#: templates/content/faq.html:10
+msgid "Question #1?"
+msgstr ""
+
+#: templates/content/faq.html:13
+msgid "Answer #1"
+msgstr ""
+
+#: templates/content/faq.html:18
+msgid "Question #2?"
+msgstr ""
+
+#: templates/content/faq.html:21
+msgid "Answer #2"
+msgstr ""
+
+#: templates/content/index.html:12
+msgid "<short project description>"
+msgstr ""
+
+#: templates/content/index.html:27
+msgid ""
+"You appear to be using an old browser.  This website looks best in one of "
+"the following browsers:"
+msgstr ""
+
+#: templates/content/membership.html:7
+msgid "Being a STIGMERGY member"
+msgstr ""
+
+#: templates/content/membership.html:8
+msgid ""
+"After registration, you'll be randomly assigned a number of contacts within "
+"the STIGMERGY network. About half will be from your local area, and the "
+"others will be from the rest of the world, according to your language "
+"preferences. This is your initial network."
+msgstr ""
+
+#: templates/content/membership.html:9
+msgid ""
+"Explore! Get in touch with your new comrades using their contact details. "
+"Once you feel comfortable, you should meet your local contacts offline."
+msgstr ""
+
+#: templates/content/membership.html:10
+msgid ""
+"It is up to STIGMERGY members to decide how to organize their support "
+"communities. Talk to your contacts, and find common cause among your peers. "
+"If there is anyone you cannot work with, there is also a facility for "
+"replacing a contact."
+msgstr ""
+
+#: templates/content/membership.html:12
+msgid "Guidelines"
+msgstr ""
+
+#: templates/content/membership.html:14
+msgid ""
+"Security starts at home: Protect yourself. Safeguard your privacy with "
+"software and good sense."
+msgstr ""
+
+#: templates/content/membership.html:15
+msgid ""
+"Security is not a one-man show: Protect your friends. Keep their information "
+"private."
+msgstr ""
+
+#: templates/content/membership.html:16
+msgid ""
+"Keep copies of your friends' contact information offline, so that if "
+"something happens to STIGMERGY's website, you will still be in touch."
+msgstr ""
+
+#: templates/content/membership.html:17
+msgid ""
+"Encourage good ideas and good people, and good people will support your good "
+"ideas."
+msgstr ""
+
+#: templates/content/membership.html:18
+msgid ""
+"Be realistic: Don't take on work you can't possibly do. You will only make "
+"STIGMERGY less efficient if you do."
+msgstr ""
+
+#: templates/content/membership.html:19
+msgid ""
+"Use the network. Ask your friends to pass on information to their contacts, "
+"and their contacts' contacts. Information can spread very fast in a network "
+"like this if it needs to."
+msgstr ""
+
+#: templates/content/membership.html:20
+msgid ""
+"Encourage a society of mutual respect and dignity. Apply the golden rule: "
+"treat others as you would wish to be treated. Intellectual difference is to "
+"be cherished. Agree to disagree, and always look to discover your shared "
+"interests and beliefs. "
+msgstr ""
+
+#: templates/content/membership.html:21
+msgid "Keep it legal. Don't put yourself and others at risk."
+msgstr ""
+
+#: templates/i18n/setlang.html:10
+#, python-format
+msgid ""
+"Select the language in which you would prefer to view the website.  Your "
+"current language is <strong>%(current_language)s</strong>"
+msgstr ""
+
+#: templates/i18n/setlang.html:21 templates/user/edit_profile.html:181
+#: templates/user/user_found.html:143
+msgid "Cancel"
+msgstr ""
+
+#: templates/partials/captcha.html:6 templates/registration/register.html:182
+msgid ""
+"To verify that you are a human being, please type the letters you see in the "
+"picture below into the box."
+msgstr ""
+
+#: templates/partials/captcha.html:13 templates/registration/register.html:190
+msgid "I can't read that!"
+msgstr ""
+
+#: templates/partials/lang_select_table.html:4
+msgid "I'll communicate with contact one in:"
+msgstr ""
+
+#: templates/partials/lang_select_table.html:10
+msgid "I'll communicate with contact two in:"
+msgstr ""
+
+#: templates/partials/lang_select_table.html:16
+msgid "I'll communicate with contact three in:"
+msgstr ""
+
+#: templates/partials/lang_select_table.html:22
+msgid "I'll communicate with contact four in:"
+msgstr ""
+
+#: templates/partials/lang_select_table.html:28
+msgid "I'll communicate with contact five in:"
+msgstr ""
+
+#: templates/partials/lang_select_table.html:34
+msgid "I'll communicate with contact six in:"
+msgstr ""
+
+#: templates/registration/delete.html:10 templates/registration/delete.html:39
+msgid "Are you sure you want to delete your profile?"
+msgstr ""
+
+#: templates/registration/delete.html:17 templates/registration/login.html:36
+#: templates/user/edit_profile.html:164 templates/user/user_found.html:133
+msgid "Secure login key"
+msgstr ""
+
+#: templates/registration/delete.html:22
+msgid "Yes, delete my profile permanently!"
+msgstr ""
+
+#: templates/registration/delete.html:23
+msgid "No, get me out of here!"
+msgstr ""
+
+#: templates/registration/delete_confirm.html:9
+msgid "Your profile has been deleted."
+msgstr ""
+
+#: templates/registration/delete_confirm.html:14
+msgid "Back to STIGMERGY home"
+msgstr ""
+
+#: templates/registration/logged_out.html:12
+#: templates/registration/login.html:13
+msgid "Return to the home page"
+msgstr ""
+
+#: templates/registration/login.html:20
+msgid "Your login failed."
+msgstr ""
+
+#: templates/registration/login.html:23
+#: templates/registration/register.html:226
+#: templates/user/edit_profile.html:176
+msgid "Your entry does not match the captcha, please try again."
+msgstr ""
+
+#: templates/registration/login.html:25
+msgid ""
+"The email/password or the login key you entered are not valid. Note that all "
+"fields are case-sensitive."
+msgstr ""
+
+#: templates/registration/login.html:44 templates/registration/login.html:45
+msgid "Encrypted login"
+msgstr ""
+
+#: templates/registration/login.html:45
+#: templates/registration/new_login.html:26
+msgid ""
+"Encrypted login refers to the new system of data protection that STIGMERGY "
+"implements, whereby your data is completely encrypted and your secure login "
+"key is the only key that can decrypt it. This represents a completely new "
+"data retention philosophy in social networking: data minimisation. We aim to "
+"minimise the amount of data that you input, and minimise who can read this "
+"data."
+msgstr ""
+
+#: templates/registration/login.html:51
+msgid "Please Wait..."
+msgstr ""
+
+#: templates/registration/login.html:55
+msgid ""
+"We are decrypting the information that you and your friends have entered. "
+"This might take up some seconds..."
+msgstr ""
+
+#: templates/registration/new_login.html:9
+msgid ""
+"In order to securely encrypt your data, we are changing the way you log in."
+msgstr ""
+
+#: templates/registration/new_login.html:12
+msgid ""
+"Please write this down, it will be your only way to access your friends' "
+"data:"
+msgstr ""
+
+#: templates/registration/new_login.html:22
+msgid ""
+"Please enter it in the box to confirm that you have written it down. You "
+"will not be able to log in with your email and password again after "
+"confirming this code."
+msgstr ""
+
+#: templates/registration/new_login.html:26
+#: templates/registration/register.html:147
+msgid "Profile Encryption"
+msgstr ""
+
+#: templates/registration/new_login.html:26
+msgid "What is happening?"
+msgstr ""
+
+#: templates/registration/new_login.html:29
+msgid "OK, got it!"
+msgstr ""
+
+#: templates/registration/new_login.html:34
+msgid ""
+"Thank you for registering for STIGMERGY. Please do not log in for at least 5 "
+"minutes as encryption of your account may take some time to complete."
+msgstr ""
+
+#: templates/registration/new_login.html:58
+msgid ""
+"To make sure you have written down the secure login key correctly, please "
+"enter it here."
+msgstr ""
+
+#: templates/registration/new_login.html:68
+#: templates/registration/register.html:234
+msgid "Wrong. You will NOT be able to log in without this key!"
+msgstr ""
+
+#: templates/registration/register.html:19 templates/user/edit_profile.html:69
+msgid ""
+"Select the languages you would like your 6 international friends to speak"
+msgstr ""
+
+#: templates/registration/register.html:22
+msgid ""
+"We're going find you six international friends in the languages you specify."
+msgstr ""
+
+#: templates/registration/register.html:23 templates/user/edit_profile.html:76
+msgid ""
+"For example, if you select en, en, fr, fr, de, en, you will have 3 english-"
+"speaking global contacts, 2 french speaking and one german speaking"
+msgstr ""
+
+#: templates/registration/register.html:30
+#: templates/registration/register.html:86
+#: templates/registration/register.html:90
+#: templates/registration/register.html:129
+#: templates/registration/register.html:133
+#: templates/registration/register.html:156
+#: templates/registration/register.html:160
+msgid "next step"
+msgstr ""
+
+#: templates/registration/register.html:35 templates/user/edit_profile.html:84
+msgid "Approximate Location"
+msgstr ""
+
+#: templates/registration/register.html:39 templates/user/edit_profile.html:91
+msgid "We will find friends for you in your local area."
+msgstr ""
+
+#: templates/registration/register.html:40
+msgid ""
+"6 people who are located close enough for you to meet up with. Your location "
+"will be offset by a distance of about one kilometer in a random direction on "
+"submission so as to not reveal your exact position."
+msgstr ""
+
+#: templates/registration/register.html:41
+msgid ""
+"If you live in a remote location, you may wish to enter a location "
+"sufficiently far from where you live as to not uniquely identify your "
+"location."
+msgstr ""
+
+#: templates/registration/register.html:50
+#: templates/user/edit_profile.html:102
+msgid "Is this within 10 minutes travel from your location?"
+msgstr ""
+
+#: templates/registration/register.html:56
+#: templates/user/edit_profile.html:108
+msgid "Longitude"
+msgstr ""
+
+#: templates/registration/register.html:60
+#: templates/user/edit_profile.html:112
+msgid "Latitude"
+msgstr ""
+
+#: templates/registration/register.html:65
+msgid "No"
+msgstr ""
+
+#: templates/registration/register.html:66
+msgid "Yes"
+msgstr ""
+
+#: templates/registration/register.html:70
+#: templates/user/edit_profile.html:118
+msgid "Enter your approximate location:"
+msgstr ""
+
+#: templates/registration/register.html:71
+#: templates/user/edit_profile.html:119
+msgid ""
+"Please enter a suburb, small town, or nearby street. Please do not put a "
+"large metropolis such as Tokyo; a smaller locality would be more useful."
+msgstr ""
+
+#: templates/registration/register.html:75
+#: templates/user/edit_profile.html:123
+msgid "Show on map"
+msgstr ""
+
+#: templates/registration/register.html:78
+#: templates/user/edit_profile.html:126
+msgid "...or double click on the map"
+msgstr ""
+
+#: templates/registration/register.html:87
+#: templates/registration/register.html:89
+#: templates/registration/register.html:130
+#: templates/registration/register.html:132
+#: templates/registration/register.html:157
+#: templates/registration/register.html:159
+#: templates/registration/register.html:194
+#: templates/registration/register.html:196
+msgid "previous step"
+msgstr ""
+
+#: templates/registration/register.html:94
+#: templates/user/edit_profile.html:132
+msgid ""
+"To move the pointer, please enter another location in the text field or "
+"double click on the map."
+msgstr ""
+
+#: templates/registration/register.html:102
+#: templates/user/edit_profile.html:35
+msgid "Tell others how to contact you"
+msgstr ""
+
+#: templates/registration/register.html:107
+msgid ""
+"Write down all contact details that you would like your new friends in the "
+"network to see. Your contact information will be visible to your friends "
+"only. You can supply additional information regarding each contact method, "
+"such as preference, when to contact you and what steps to take. You can also "
+"include chat channels, Blackberry PINs, BBM, fingerprints, PGP keys or "
+"meeting instructions here."
+msgstr ""
+
+#: templates/registration/register.html:114
+#: templates/user/edit_profile.html:50
+msgid "A short passage about yourself and why you want to join STIGMERGY"
+msgstr ""
+
+#: templates/registration/register.html:116
+#: templates/user/edit_profile.html:57
+msgid ""
+"This is to ensure that you're a genuine member, as well as providing your "
+"other contacts with a little information about yourself. You can include "
+"anything you like, so long as it's 100-400 words. Don't worry, there's no "
+"need to include personally identifying information about yourself. This "
+"would be a good place to list any skills or training which you feel might be "
+"of benefit to your involvement with STIGMERGY."
+msgstr ""
+
+#: templates/registration/register.html:116
+#: templates/user/edit_profile.html:57
+msgid ""
+"For example any of the following: coding, graphic design, legal training, "
+"event management, writing skills, etc."
+msgstr ""
+
+#: templates/registration/register.html:116
+#: templates/user/edit_profile.html:57
+msgid ""
+"A couple of paragraphs on your beliefs, values, opinions, and why you want "
+"to join would also be appropriate."
+msgstr ""
+
+#: templates/registration/register.html:124
+msgid ""
+"Remember to give this information in all the languages that you speak, so "
+"that all your  contacts, who might only speak their native language, will be "
+"able to read it!"
+msgstr ""
+
+#: templates/registration/register.html:140
+msgid "Your Secure Login Key"
+msgstr ""
+
+#: templates/registration/register.html:145
+msgid ""
+"See the numbers and letters in the box below? YOU MUST WRITE THEM DOWN on a "
+"card and place it in your wallet."
+msgstr ""
+
+#: templates/registration/register.html:147
+msgid ""
+"The numbers and letters in the box below form your handy secure login key. "
+"This is ALL you will use to login! If you lose it your account will be "
+"FOREVER LOST. Store it in your wallet. For extra security, in two halves."
+msgstr ""
+
+#: templates/registration/register.html:147
+msgid ""
+"To ensure the highest standards of data protection, your entire account will "
+"be encrypted, with your login key as the encryption key. Without it, your "
+"account cannot be read or changed by anyone, not even us. So resetting the "
+"login key is impossible."
+msgstr ""
+
+#: templates/registration/register.html:169
+msgid "Do you want to receive information from us?"
+msgstr ""
+
+#: templates/registration/register.html:173
+#: templates/user/edit_profile.html:148
+msgid ""
+"Tick this box if you want to receive emails about important updates and your "
+"account. If, for security reasons, you do not want to receive email "
+"communication then do not check this box."
+msgstr ""
+
+#: templates/registration/register.html:176
+#: templates/user/edit_profile.html:150 templates/user/profile.html:42
+msgid "Email"
+msgstr ""
+
+#: templates/registration/register.html:180
+msgid "Please enter the letters you can see in the picture below"
+msgstr ""
+
+#: templates/registration/register.html:182
+msgid "This 'captcha' is a way of keeping our website secure from attacks."
+msgstr ""
+
+#: templates/registration/register.html:193
+#: templates/registration/register.html:197
+msgid "Complete my registration!"
+msgstr ""
+
+#: templates/registration/register.html:203
+#: templates/registration/register_submit.html:8
+msgid "Thank you for registering with STIGMERGY!"
+msgstr ""
+
+#: templates/registration/register.html:207
+msgid ""
+"We assign friends about once a week so please keep checking to see who your "
+"new contacts are. Please do not log in for about 5 minutes as your account "
+"is still being encrypted."
+msgstr ""
+
+#: templates/registration/register.html:224
+#: templates/user/edit_profile.html:185
+msgid "That is not a valid email address"
+msgstr ""
+
+#: templates/registration/register.html:225
+#: templates/user/edit_profile.html:186
+msgid "The email address is too long"
+msgstr ""
+
+#: templates/registration/register.html:228
+#: templates/user/edit_profile.html:187
+msgid "Please enter some 'about me' information"
+msgstr ""
+
+#: templates/registration/register.html:229
+#: templates/user/edit_profile.html:188
+msgid "Please enter some 'contact me' information"
+msgstr ""
+
+#: templates/registration/register.html:230
+#: templates/user/edit_profile.html:189
+msgid "Sorry, this is a little too much information for us to handle!"
+msgstr ""
+
+#: templates/registration/register.html:231
+msgid ""
+"Have you remembered to write all your details and information in all of your "
+"chosen languages?"
+msgstr ""
+
+#: templates/registration/register.html:233
+msgid ""
+"To make sure you have written down your secure login key correctly, please "
+"enter it here."
+msgstr ""
+
+#: templates/registration/register.html:236
+#: templates/user/edit_profile.html:193
+msgid ""
+"Are you sure you want to leave this page and risk loss of the data you "
+"entered?"
+msgstr ""
+
+#: templates/registration/register_submit.html:13
+#, python-format
+msgid ""
+"We assign friends about once a week so please keep checking to see who your "
+"new contacts are. You can <a href=\"%(websiteurl)s\" style=\"color:black"
+"\">log in</a> now to see and edit your profile."
+msgstr ""
+
+#: templates/user/edit_profile.html:27
+msgid "Contact Details"
+msgstr ""
+
+#: templates/user/edit_profile.html:28
+msgid "About Me"
+msgstr ""
+
+#: templates/user/edit_profile.html:29 templates/user/profile.html:46
+msgid "Languages"
+msgstr ""
+
+#: templates/user/edit_profile.html:30 templates/user/profile.html:40
+#: templates/user/user_found.html:38
+msgid "Location"
+msgstr ""
+
+#: templates/user/edit_profile.html:31
+msgid "Email Address"
+msgstr ""
+
+#: templates/user/edit_profile.html:42
+msgid ""
+"Write down all contact details that you would like your new friends in the "
+"network to see. Your contact information will be visible to your 12 friends "
+"only. You can supply additional information regarding each contact method, "
+"such as preference, when to contact you and what steps to take. You can also "
+"include chat channels, Blackberry PINs, BBM, fingerprints, PGP keys or "
+"meeting instructions here."
+msgstr ""
+
+#: templates/user/edit_profile.html:64
+msgid ""
+"Remember to give this information in all the languages that you speak, so "
+"that all your friends, who might only speak their native language, will be "
+"able to read it!"
+msgstr ""
+
+#: templates/user/edit_profile.html:75
+msgid ""
+"For each language you choose, we will give you a contact who speaks that "
+"language."
+msgstr ""
+
+#: templates/user/edit_profile.html:92
+msgid "6 people who are located close enough for you to meet up with"
+msgstr ""
+
+#: templates/user/edit_profile.html:93
+msgid ""
+"Your location will be offset by a distance of about one kilometer in a "
+"random direction on submission so as to not reveal your exact location."
+msgstr ""
+
+#: templates/user/edit_profile.html:139
+msgid "Email address"
+msgstr ""
+
+#: templates/user/edit_profile.html:145
+msgid ""
+"You can enter the email address where you want STIGMERGY to send you "
+"important information."
+msgstr ""
+
+#: templates/user/edit_profile.html:182
+msgid "Submit"
+msgstr ""
+
+#: templates/user/edit_profile.html:191
+msgid "Please enter your secure login key!"
+msgstr ""
+
+#: templates/user/profile.html:23
+msgid "Hey, why don't I have any contacts?"
+msgstr ""
+
+#: templates/user/profile.html:25
+msgid ""
+"We assign friends on a regular basis, about once a week. Keep checking back "
+"to see your friends."
+msgstr ""
+
+#: templates/user/profile.html:29
+msgid ""
+"IMPORTANT: Please write down the contact details of all your friends and "
+"store them somewhere safe."
+msgstr ""
+
+#: templates/user/profile.html:30
+msgid ""
+"For example in your phone, on your computer, in your diary, or even on a "
+"piece of paper"
+msgstr ""
+
+#: templates/user/profile.html:31
+msgid ""
+"If you lose access to your account, they can not be recovered by anybody."
+msgstr ""
+
+#: templates/user/profile.html:37
+msgid "My information"
+msgstr ""
+
+#: templates/user/profile.html:37
+msgid "Edit Info"
+msgstr ""
+
+#: templates/user/profile.html:37
+msgid "Edit"
+msgstr ""
+
+#: templates/user/profile.html:43
+msgid "hidden"
+msgstr ""
+
+#: templates/user/profile.html:56
+msgid "Contact info"
+msgstr ""
+
+#: templates/user/profile.html:60
+msgid "About me"
+msgstr ""
+
+#: templates/user/profile.html:73
+msgid "My location"
+msgstr ""
+
+#: templates/user/profile.html:75
+msgid "My friends"
+msgstr ""
+
+#: templates/user/profile.html:89
+msgid "Friends in my local area"
+msgstr ""
+
+#: templates/user/profile.html:96 templates/user/profile.html.py:128
+#: templates/user/user_found.html:91
+msgid "Contact details"
+msgstr ""
+
+#: templates/user/profile.html:97 templates/user/profile.html.py:129
+#: templates/user/user_found.html:18
+msgid "Encrypted friend"
+msgstr ""
+
+#: templates/user/profile.html:97 templates/user/profile.html.py:129
+#: templates/user/user_found.html:17
+msgid ""
+"Sorry, but you cannot read the encrypted data of this friend because he has "
+"not logged in yet. Check back soon!"
+msgstr ""
+
+#: templates/user/profile.html:97 templates/user/profile.html.py:129
+#: templates/user/user_found.html:18
+msgid ""
+"This is because the data of this friend can only be decrypted when he or she "
+"logs in. Remember, we can not read the data inside any account ourselves!"
+msgstr ""
+
+#: templates/user/profile.html:98 templates/user/profile.html.py:130
+msgid "Contact no longer readable"
+msgstr ""
+
+#: templates/user/profile.html:98 templates/user/profile.html.py:130
+#: templates/user/user_found.html:25
+msgid ""
+"Sorry, but you cannot read the encrypted data of this friend. They have "
+"either deleted themselves from the system or have dropped you from their "
+"friend list. You will soon be assigned a new friend in their place!"
+msgstr ""
+
+#: templates/user/profile.html:121
+msgid "Friends around the world"
+msgstr ""
+
+#: templates/user/user_found.html:39 templates/user/user_found.html.py:46
+#: templates/user/user_found.html:76 templates/user/user_found.html.py:95
+#: templates/user/user_found.html:106
+msgid "?"
+msgstr ""
+
+#: templates/user/user_found.html:39
+msgid "Coordinates:"
+msgstr ""
+
+#: templates/user/user_found.html:42
+msgid "Distance from you"
+msgstr ""
+
+#: templates/user/user_found.html:44
+msgid "0 km"
+msgstr ""
+
+#: templates/user/user_found.html:63 templates/user/user_found.html.py:65
+msgid "Drop this contact and get another"
+msgstr ""
+
+#: templates/user/user_found.html:72
+#, python-format
+msgid "%(friend_id)s speaks these languages"
+msgstr ""
+
+#: templates/user/user_found.html:102
+msgid "Additional information"
+msgstr ""
+
+#: templates/user/user_found.html:116
+msgid "Why do you want to drop this contact?"
+msgstr ""
+
+#: templates/user/user_found.html:122
+msgid ""
+"Your contact will not be informed of the reason.  We will find you another "
+"contact soon."
+msgstr ""
+
+#: templates/user/user_found.html:124
+msgid ""
+"This person never logged in, or was unresponsive and did not reply to my "
+"communications."
+msgstr ""
+
+#: templates/user/user_found.html:125
+msgid ""
+"This person and I were not really compatible. I would prefer a new friend."
+msgstr ""
+
+#: templates/user/user_found.html:126
+msgid ""
+"I don't trust this person. They were rude, intimidating, or behaved "
+"suspiciously."
+msgstr ""
+
+#: templates/user/user_found.html:129
+msgid "Optional: Enter your comments here."
+msgstr ""
+
+#: templates/user/user_found.html:142
+msgid "Dropping a contact"
+msgstr ""
+
+#: templates/user/user_found.html:142
+msgid ""
+"You have the option of dropping your contact. This means that you cannot "
+"read each others' information anymore. A new contact will automatically be "
+"requested for you in the next assignment round. If you wish to proceed, "
+"please choose from one of the three available reasons as to why you wish to "
+"drop them."
+msgstr ""
+
+#: templates/user/user_found.html:142
+msgid "What does this mean?"
+msgstr ""
+
+#: templates/user/user_found.html:144
+msgid "Drop!"
+msgstr ""
+
+#: templates/user/user_found.html:150 templates/user/user_not_found.html:11
+msgid "Back to my profile"
+msgstr ""
+
+#: templates/user/user_found.html:152
+msgid "Somewhere at sea..."
+msgstr ""
+
+#: templates/user/user_not_found.html:7
+#, python-format
+msgid ""
+"The user <span class=\"monospace\">%(friendid)s</span> either does not exist "
+"or you two are not friends."
+msgstr ""

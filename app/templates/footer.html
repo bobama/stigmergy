@@ -1,0 +1,49 @@
+{% load i18n %}
+
+<div id="footer">
+   <hr/>
+
+
+   <div class="row">
+      <div class="span3 columns {% if user.is_authenticated %}offset3{% else %}offset2{% endif %}">
+         <center><a href="{% url content.views.about %}">{% trans "About STIGMERGY" %}</a></center>
+      </div>
+      <div class="span3 columns offset1">
+         <a href="{% url content.views.membership %}">{% trans "Info for Members" %}</a>
+      </div>
+   {% if not user.is_authenticated %}
+      <div class="span3 columns">
+         <a href="{% url user.views.register %}">{% trans "Sign Up" %}</a>
+      </div>
+   {% endif %}
+      <div class="span3 columns">
+         <a href="{% url content.views.faq %}">{% trans "FAQ" %}</a>
+      </div>
+   </div>
+   <hr />
+   <div class="row">
+      <div class="span16 columns">
+         <center>{% blocktrans with emailaddress=FEEDBACK_EMAIL%}Report problems to <a href="mailto:{{ emailaddress }}">{{ emailaddress }}</a>{% endblocktrans %}
+         </center>
+      </div>
+   </div>
+
+   {% if DEVELOPMENT %}
+   <p>
+   ================
+   </p>
+   <p>
+   DEVELOPMENT FLAG ON
+   </p>
+   {% endif %}
+</div>
+{% if VERBOSE %}
+<div class="alert-message">
+   <h3>VERBOSE MODE Request context:</h3>
+   <p>{{ context|escape }}</p>
+</div>
+{% endif %}
+</div> <!-- container -->
+
+</body>
+</html>

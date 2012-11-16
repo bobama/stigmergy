@@ -1,0 +1,17 @@
+{% if captcha %}
+{% load i18n %}
+<script src="{{STATIC_URL}}/js/captcha.js"></script>
+<div class="span8 columns">
+ <div id="captcha_wrapper" class="alert-message block-message alert">
+    {% trans "To verify that you are a human being, please type the letters you see in the picture below into the box." %}
+ <p>
+    <div id="captcha">
+       {% for field in captcha %}
+          {{ field }}
+       {% endfor %}
+    </div>
+    <br /><a style="font-size:0.7em;" id="refreshCaptcha" href="#">{% trans "I can't read that!" %}</a><br />
+ </p>
+ </div>
+</div>
+{% endif %}

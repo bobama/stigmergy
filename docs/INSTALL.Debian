@@ -1,0 +1,23 @@
+
+#######################################################################
+"Out-of-the-box" Debian Squeeze; user-centric
+#######################################################################
+
+Log into Debian as a normal user and perform the following steps
+to setup an environment capable of running the "stigmergy"
+application under that account: 
+
+$ sudo aptitude zlib1g-dev curl libgmp3-dev sqlite libsqlite3-dev
+$ sudo easy_install pythonbrew
+$ pythonbrew_install
+$ [change .bashrc]
+$ source ~/.bashrc
+$ pythonbrew install 2.7.3
+$ pythonbrew switch 2.7.3
+$ curl -O https://raw.github.com/pypa/pip/master/contrib/get-pip.py
+$ python get-pip.py
+$ pip install Django
+$ pip install django-simple-captcha
+$ pip install pysqlite
+$ pip install pycrypto
+

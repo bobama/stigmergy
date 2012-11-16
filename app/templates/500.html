@@ -1,0 +1,79 @@
+{% load i18n %}
+
+{% load url from future %}
+
+<!DOCTYPE html>
+<html>
+<head>
+   <title>{% if title %}{{ title }}{% else %}{% trans "STIGMERGY" %}{% endif %}</title>
+
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+   <link rel="icon" type="image/ico" href="{{STATIC_URL}}/img/icons/favicon.ico">
+
+   <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
+   <link rel="stylesheet" type="text/css" href="/static/css/custom.css" />
+
+   <script src="{{STATIC_URL}}/js/jquery-1.6.3.min.js"></script>
+   <script src="{{STATIC_URL}}/js/jquery-cookie.js"></script>
+   <script src="{{STATIC_URL}}/js/bootstrap-twipsy.js"></script>
+   <script src="{{STATIC_URL}}/js/bootstrap-popover.js"></script>
+
+</head>
+<body>
+
+<div class="container">
+
+<div id="header">
+   <div id="menu" class="topbar">
+      <div class="fill">
+         <div class="container">
+
+               <h3>
+                  <a href="{% url "content.views.home" %}"><img src="{{STATIC_URL}}/img/project.gif" height="36" alt="STIGMERGY" title="STIGMERGY" align="absmiddle" />
+                  {% trans "STIGMERGY" %}</a>
+               </h3>
+
+            <ul class="nav">
+               {% if not user.is_authenticated or forceLoginLink %}
+                  <li>
+                     <a href="{% url "user.views.register" %}">{% trans "Sign Up" %}</a>
+                  </li>
+
+                  <li>
+                     <a href="{% url "accounts.views.loginForwarding" %}">{% trans "Login" %}</a>
+                  </li>
+
+               {% else %}
+                     <li>
+                        <a href="{% url "user.views.profile_forwarding" %}">{% trans "Profile" %}</a>
+                     </li>
+                     <li>
+                        <a href="{% url "user.views.edit_forwarding" clicked="" %}">{% trans "Edit Profile" %}</a>
+                     </li>
+                     <li>
+                        <a href="{% url "accounts.views.logout_forwarding" %}">{% trans "Logout" %}</a>
+                     </li>
+               {% endif %}
+            </ul>
+            <ul class="nav secondary-nav">
+               <li>
+                  <a href="{% url "user.views.select_lang" %}">{% trans "Language" %} ({{ LANGUAGE_CODE }})</a>
+               </li>
+            </ul>
+         </div>
+      </div>
+   </div>
+   <br/>
+   <br/>
+   <br/>
+</div>
+
+<p class="alert-message error">
+{% blocktrans with emailaddress=FEEDBACK_EMAIL%}Internal Server Error. Email us at  <a href="mailto:{{ emailaddress }}">{{ emailaddress }}</a>  and tell us what you tried to do!{% endblocktrans %}
+<br />(Error 500)
+</p> 
+
+</div> <!-- container -->
+
+</body>
+</html>

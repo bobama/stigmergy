@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+
+{% load i18n %}
+
+{% block content %}
+
+
+<div class="alert-message">
+   {% blocktrans with current_language=LANGUAGE_CODE|language_name_local %}Select the language in which you would prefer to view the website.  Your current language is <strong>{{ current_language }}</strong>{% endblocktrans %}
+</div>
+
+<form action="{% url content.views.i18nForwarding %}" method="post">
+{% csrf_token %}
+<input name="next" type="hidden" value="{{ previouspage }}" />
+
+<select id="lang_select" name="language">
+   {% include "partials/site_lang_select.html" %}
+</select>
+<input type="submit" value="Change display language" class="btn primary" />
+<a href="{{ previouspage }}" class="btn secondary">{% trans "Cancel" %}</a>
+</form>
+
+{% endblock %}
+
+

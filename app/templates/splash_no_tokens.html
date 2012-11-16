@@ -1,0 +1,62 @@
+{% load i18n %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+   <title>{{ title }}</title>
+
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+   <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}/css/bootstrap.css">
+   <style type="text/css">
+    <!--
+        #logodiv {
+            position: absolute;
+            top: 10%;
+            left: 1%;
+            width: 98%;
+            text-align: center;
+        }
+        #langdiv {
+            position: relative;
+            top: 20px;
+        }
+        .language {
+            font-size: 1.2em;
+            margin-left:3px;
+            margin-top:3px;
+        }
+    -->
+   </style>
+   
+   <script src="{{STATIC_URL}}/js/jquery-1.6.3.min.js"></script>
+   <script src="{{STATIC_URL}}/js/bootstrap-twipsy.js"></script>
+   <script src="{{STATIC_URL}}/js/bootstrap-popover.js"></script>
+</head>
+
+<body>
+<div id="logodiv">
+<img src="{{STATIC_URL}}/img/project.gif" width="341" height="301" alt="STIGMERGY" title="STIGMERGY" />
+<div id="langdiv">
+{% for lang_key in SPLASH_LANGUAGES %}
+{% get_language_info for lang_key as lang %}
+{% if lang_key in TRANSLATED_LANGUAGES %}
+<form id="keyform_{{ lang_key }}" action="/" method="post" style="display:inline;">
+{% csrf_token %} 
+<input id="keyfield_{{ lang_key }}" type="hidden" name="token" value="prjtoken" />
+<input id="lang_{{ lang_key }}" type="hidden" name="language" value="{{ lang_key }}" />
+<input name="next" type="hidden" value="{{ thispage }}" />
+<input type="submit" class="language btn primary done" value="{{ lang.name_local }}" />
+</form>
+{% else %}
+<button type="button" class="language btn" value="{{ lang_key }}" disabled="disabled">{{ lang.name_local }}</button>
+{% endif %}
+{% endfor %}
+<br /><br /><p>{% trans "Translations are still in progress..." %}</p>
+</div>
+</div>
+
+
+</body>
+</html>

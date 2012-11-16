@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% load url from future %}
+
+{% block content %}
+
+<script src="{{STATIC_URL}}/js/bootstrap-tabs.js"></script>
+<script src="{{STATIC_URL}}/js/editprofile.js"></script>
+
+
+<div style="float:right; margin-top:-50px;"><a href="{% url "accounts.views.delete_forwarding" %}" style="font-size:0.8em;">Delete my account</a></div>
+
+{% if message %}
+<div class="alert-message">
+   <p>
+   {{ message }}
+   <p>
+</div>
+{% endif %}
+<div style="display:none; position:absolute;" id="loadingGif"><img src="{{STATIC_URL}}/img/loading.gif" alt="loading..." title="loading..." /></div>
+
+<form id="editform" action="" method="post">
+   {% csrf_token %}
+   <ul class="tabs" data-tabs="tabs">
+      <li {% if clicked == "contact" or not clicked %}class="active"{% endif %}><a id="contact_head" href="#editcontact_tab">{% trans "Contact Details" %}</a></li>
+      <li {% if clicked == "about" %}class="active"{% endif %}><a id="about_head" href="#editabout_tab">{% trans "About Me" %}</a></li>
+      <li {% if clicked == "languages" %}class="active"{% endif %}><a id="languages_head" href="#editlanguages_tab">{% trans "Languages" %}</a></li>
+      <li {% if clicked == "location" %}class="active"{% endif %}><a id="loc_head" href="#editloc_tab">{% trans "Location" %}</a></li>
+      <li {% if clicked == "email" %}class="active"{% endif %}><a id="email_head" href="#editemail_tab">{% trans "Email Address" %}</a></li>
+   </ul>
+   <div id="edit_tabs" class="tab-content">   
+      <div id="editcontact_tab" class="{% if clicked == "contact" or not clicked %}active{% endif %} tab-pane">
+         <p><h3>{% trans "Tell others how to contact you" %}</h3></p>
+         <div class="alert-message" id="contacterror" {% if not contacterror %}style="display:none"{% endif %}>
+            {{ contacterror }}
+         </div>
+         <div class="alert-message block-message info">
+         {% comment %} MAKE SURE THIS TEXT MATCHES REGISTER.HTML {% endcomment %}
+            {% trans "Write down all contact details that you would like your new friends in the network to see. Your contact information will be visible to your 12 friends only. You can supply additional information regarding each contact method, such as preference, when to contact you and what steps to take. You can also include chat channels, Blackberry PINs, BBM, fingerprints, PGP keys or meeting instructions here." %} 
+         </div>
+         <div>
+            <textarea id="contact_info_textarea" name="contact_info" style="height:200px; width:99%" value="">{% if contact_info %}{{ contact_info }}{% else %}{{ profile.contact_info }}{% endif %}</textarea>
+         </div>
+      </div>
+      
+      <div id="editabout_tab" class="{% if clicked == "about" %}active{% endif %} tab-pane">
+         <p><h3>{% trans "A short passage about yourself and why you want to join STIGMERGY" %}</h3></p>
+         <div class="alert-message" id="abouterror" {% if not abouterror %}style="display:none"{% endif %}>
+            {{ abouterror }}
+         </div>
+         <div class="alert-message block-message info">
+         {% comment %} MAKE SURE THIS TEXT MATCHES REGISTER.HTML {% endcomment %}
+            {% trans "This is to ensure that you're a genuine member, as well as providing your other contacts with a little information about yourself. You can include anything you like, so long as it's 100-400 words. Don't worry, there's no need to include personally identifying information about yourself. This would be a good place to list any skills or training which you feel might be of benefit to your involvement with STIGMERGY." %} <a id="skills-info" rel="twipsy" title="{% trans "For example any of the following: coding, graphic design, legal training, event management, writing skills, etc." %}" href="#">(?)</a> {% trans "A couple of paragraphs on your beliefs, values, opinions, and why you want to join would also be appropriate." %} 
+         </div>
+         <div>
+            <textarea id="about_me_textarea" name="about_me" style="height:200px; width:99%" value="">{% if about_me %}{{ about_me }}{% else %}{{ profile.about_me }}{% endif %}</textarea>
+         </div>
+         <br/>
+         <div class="alert-message block-message info">
+            {% trans "Remember to give this information in all the languages that you speak, so that all your friends, who might only speak their native language, will be able to read it!" %} 
+         </div>
+      </div>
+      
+      <div id="editlanguages_tab" class="{% if clicked == "languages" %}active{% endif %} tab-pane">
+         <h3>{% trans "Select the languages you would like your 6 international friends to speak" %}</h3>
+         <div class="alert-message" id="languageserror" {% if not languageserror %}style="display:none"{% endif %}>
+            {{ languageserror }}
+         </div>
+         <div class="alert-message block-message info">
+            <p>
+            {% trans "For each language you choose, we will give you a contact who speaks that language." %}
+            <a id="select-languages-info" rel="twipsy" title="{% trans "For example, if you select en, en, fr, fr, de, en, you will have 3 english-speaking global contacts, 2 french speaking and one german speaking" %}" href="#">(?)</a>
+            </p>
+         </div>
+         {% include "partials/lang_select_table.html" %}
+      </div>
+      
+      <div id="editloc_tab" class="{% if clicked == "location" %}active{% endif %} tab-pane" {% if clicked != "location" %}style="position: absolute; left: -10000px; display:block;"{% endif %}>
+         <div id="geocodeorigprompt">
+            <h3>{% trans "Approximate Location" %}</h3>
+         </div>
+         <div class="alert-message" id="locationerror" {% if not locationerror %}style="display:none"{% endif %}>
+            {{ locationerror }}
+         </div>
+         <div class="alert-message block-message info">
+            <p>
+            {% trans "We will find friends for you in your local area." %}
+            <a id="local-area-info" rel="twipsy" title="{% trans "6 people who are located close enough for you to meet up with" %}" href="#">(?)</a>
+            {% trans "Your location will be offset by a distance of about one kilometer in a random direction on submission so as to not reveal your exact location." %} 
+            </p>
+         </div>
+         <div>
+            <p id="locerror" style="display:none;" class="alert-message error"></p>
+         </div>
+
+         <div class="row">
+            <div class="span9 columns">
+               <h3>{% trans "Is this within 10 minutes travel from your location?" %}</h3>
+               <table class="zebra-striped">
+                  <tr>
+                     <td id="geocodetown">{{ profile.latitude|floatformat }}, {{ profile.longitude|floatformat }}</td>
+                  </tr>
+                  <tr style="display:none">
+                     <td>{% trans "Longitude" %}</td>
+                     <td id="geocodelongitude">{{ profile.longitude }}</td>
+                  </tr>
+                  <tr style="display:none">
+                     <td>{% trans "Latitude" %}</td>
+                     <td id="geocodelatitude">{{ profile.latitude }}</td>
+                  </tr>
+               </table>
+               <div id="locationcontrol">
+                  <div id="geocodenewprompt">
+                     <h3>{% trans "Enter your approximate location:" %}
+                     <a id="enter-location-info" rel="twipsy" title="{% trans "Please enter a suburb, small town, or nearby street. Please do not put a large metropolis such as Tokyo; a smaller locality would be more useful." %}" href="#">(?)</a>
+                     </h3>
+                     <p>
+                        <input id="geocodeaddress" type="text" value="" />
+                        <input id="geocodesubmit" type="submit" value="{% trans "Show on map" %}" class="btn info" />
+                     </p>
+                     <p>
+                        {% trans "...or double click on the map" %}
+                     </p>
+                  </div>
+               </div>
+            </div>
+            <div class="span6 columns">
+               <p style="visibility:hidden; color:red;" id="pointerMoveWarning">{% trans "To move the pointer, please enter another location in the text field or double click on the map." %}</p>
+               <div id="map_canvas"></div>
+            </div>
+         </div>
+      </div>
+      
+      <div id="editemail_tab" class="{% if clicked == "email" %}active{% endif %} tab-pane">
+         <h3>{% trans "Email address" %}</h3>
+         <div class="alert-message" id="emailerror" {% if not emailerror %}style="display:none"{% endif %}>
+            {{ emailerror }}
+         </div>
+         <div class="alert-message block-message info">
+            <p>
+            {% trans "You can enter the email address where you want STIGMERGY to send you important information." %}
+            </p>
+         </div>
+            <div class="input"><input id="allow_email" type="checkbox" name="allow_email" {% if profile.allow_email %}checked="checked" {% endif %} value=1 /> <label for="allow_email" style="width:auto; float:none;">{% trans "Tick this box if you want to receive emails about important updates and your account. If, for security reasons, you do not want to receive email communication then do not check this box." %}</label></div>
+            <div id="div_email" class="clearfix emailline {% if emailerror %}error{% endif %}" {% if not profile.allow_email %}style="display:none;"{% endif %}>
+               <label for="id_email">{% trans "Email" %}</label>
+               <div class="input">
+                  <input id="id_email" type="text" name="email" value="{% if email %}{{ email }}{% else %}{{ profile.email }}{% endif %}" />
+               </div>
+            </div>
+
+      </div>
+      
+   </div>
+   
+   <div class="alert-message" id="passworderror" {% if not passworderror %}style="display:none"{% endif %}>
+      {{ passworderror }}
+   </div>
+   <div id="div_password" class="clearfix {% if passworderror %}error{% endif %}">
+      <label for="id_password">{% trans "Secure login key" %}</label>
+      <div class="input">
+         <input class="passphrase" id="id_password" type="text" name="password" autocomplete="off" /><img class="prjicon" src="{{STATIC_URL}}/img/icons/safe.png" height="24px" />
+      </div>
+   </div>
+
+   <input id="town" type="hidden" name="town" />
+   <input id="longitude" type="hidden" name="longitude" />
+   <input id="latitude" type="hidden" name="latitude" />
+   {% if captchaerror %}
+      <div class="alert-message error">
+         <p>
+            {% trans "Your entry does not match the captcha, please try again." %}
+         </p>
+      </div>
+   {% endif %}
+   {% include "partials/captcha.html" %}
+   <a id="cancellink" class="btn large" href="{% url 'user.views.profile_forwarding' %}">{% trans "Cancel" %}</a>
+   <input id="formsubmit" type="submit" value="{% trans "Submit" %}" class="btn large success"/>
+</form>
+<div id="errormsgs" style="display:none">
+   <span id="emailNotValid">{% trans "That is not a valid email address" %}</span>
+   <span id="emailTooLong">{% trans "The email address is too long" %}</span>
+   <span id="aboutMeEmpty">{% trans "Please enter some 'about me' information" %}</span>
+   <span id="contactMeEmpty">{% trans "Please enter some 'contact me' information" %}</span>
+   <span id="tooMuchInfo">{% trans "Sorry, this is a little too much information for us to handle!" %}</span>
+
+   <span id="passwordMissing">{% trans "Please enter your secure login key!" %}</span>
+
+   <span id="stayOnPageAlert">{% trans "Are you sure you want to leave this page and risk loss of the data you entered?" %}</span>
+</div>
+<style>
+   .tabs {
+     margin-bottom: 0;
+   }
+   .tab-content {
+     border-color: #DDDDDD;
+     border-style: solid;
+     border-width: 0 1px 1px;
+     margin-bottom: 10px;
+     padding:10px;
+   }
+</style>
+{% if passworderror %}
+   <script>
+   $(document).ready(function(){
+       $('html, body').animate({ scrollTop: $("#passworderror").offset().top-65 }, 200 );
+   });
+   </script>
+{% endif %}
+{% endblock %}

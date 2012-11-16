@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% load url from future %}
+
+{% block content %}
+
+<div class="row">
+    <div class="span8 columns">
+        <p style="font-size:1.1em">
+        {% trans "<short project description>" %}
+        </p>
+        <br/>
+        <br/>
+        {% if not user.is_authenticated or forceLoginLink %}
+            <div align="center">
+                <a href="{% url "user.views.register" %}" id="signupbtn" class="btn success" style="font-size:2.2em;">{% trans "Sign Up" %}</a>
+                <a href="{% url "accounts.views.login_forwarding" %}" id="loginbtn" class="btn info" style="font-size:2.2em;">{% trans "Login" %}</a>
+            </div>
+        {% endif %}
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <div id="oldBrowserWarning" class="alert-message" style="display:none">
+            {% trans "You appear to be using an old browser.  This website looks best in one of the following browsers:" %}
+            <ul>
+                <li>Safari</li>
+                <li>Google Chrome</li>
+                <li>Firefox 4+</li>
+                <li>Internet Explorer 7+</li>
+                <li>Opera 11</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="span8 columns">
+    
+        <p>STIGMERGY represents a totally new form of social networking. It is designed to allow people to
+        "mesh up" in a global movement and to retain their individual privacy - and without the risk of
+        revealing the complete network graph to intruders and adversaries.</p>
+
+        <p>This goal is achieved by different means:</p>
+        
+        <ol>
+            <li>All information of a user is encrypted and is visible only to the user and
+                and the assigned contacts. Nobody else can read the information!</li>
+            <li>The layout of the connections of the network (who is in contact with whom)
+                is also hidden. No contact of a user can find out which other contacts are
+                maintained by the user. A friend of a friend is not necessarily a friend!</li>
+            <li>Even if a server is seized by an adversary the information of the individual
+                user and the network graph are protected and can't be reconstructed from the
+                data visible on the server.</li>
+        </ol>
+         
+        <p>Unlike other social networking platforms like Facebook or Google+, the number of contacts you
+        have in "Stigmergy" is limited - and you get contacts assigned instead of choosing them.</p>
+
+        <p>In total you have exactly twelve contacts: six local contacts (geographically close to you)
+        and six global contacts that speak one of the languages you speak. If you have a contact that
+        is unresponsive, rude or suspected of being "incompatible" withthe ideas of the other users of
+        the network, you can drop the contact and get a new contact assigned after some time.</p> 
+    </div>
+</div>
+
+<script>
+   function oldBrowser() {
+      var version = parseFloat($.browser.version.substr(0,3));
+      if ($.browser.msie && version < 7) {
+         return true;
+      } else if ($.browser.mozilla && version < 3.6) {
+         return true;
+      }
+      return false;
+   }
+
+   $(document).ready(function(){
+      if (oldBrowser()) {
+         $("#oldBrowserWarning").show();
+      }
+         
+      $("#title").css("color","#0050A3");
+   });
+</script>
+
+{% endblock %}

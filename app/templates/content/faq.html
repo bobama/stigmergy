@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+<div class="darkabout">
+   <h1><a class="aboutheader">{% trans "Frequently Asked Questions" %}</a></h1>
+   <div class="faq">
+      <div class="faqq">
+         <p>{% trans "Question #1?" %}</p>
+      </div>
+      <div class="faqa">
+         <p>{% trans "Answer #1" %}</p>
+      </div>
+   </div>
+   <div class="faq">
+      <div class="faqq">
+         <p>{% trans "Question #2?" %}</p>
+      </div>
+      <div class="faqa">
+         <p>{% trans "Answer #2" %}</p>
+      </div>
+   </div>
+</div>
+{% endblock %}
+

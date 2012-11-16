@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+<form name="choice" action="" method="post">
+   {% csrf_token %}
+   <p>
+      <h3>
+         {% trans "Are you sure you want to delete your profile?" %}
+      </h3>
+   </p>
+   <div class="alert-message" id="passworderror" {% if not passworderror %}style="display:none"{% endif %}>
+      {{ passworderror }}
+   </div>
+   <div id="div_password" class="clearfix {% if passworderror %}error{% endif %}">
+      <label for="id_password">{% trans "Secure login key" %}</label>
+      <div class="input">
+         <input class="passphrase" id="id_password" type="text" name="password" />
+      </div>
+   </div>
+   <input id="delete_yes_visible" type="submit" value="{% trans "Yes, delete my profile permanently!" %}" class="btn danger"/>
+   <input id="delete_no_visible" type="submit" value="{% trans "No, get me out of here!" %}" class="btn primary large"/>
+
+   <input id="delete_yes" name="yes" type="submit" style="visibility:hidden" />
+   <input id="delete_no" name="no" type="submit" style="visibility:hidden" />
+</form>
+
+<script>
+
+   $(function() {
+      $("#delete_yes_visible").click( function(e) {
+         e.preventDefault();
+         $("#id_password").val($.trim($("#id_password").val()).toUpperCase().split(' ').join(''));
+         if (!$("#id_password").val().length) {
+            $("#div_password").addClass("error");
+         } else {
+            $("#div_password").removeClass("error");
+            if (confirm("{% trans "Are you sure you want to delete your profile?" %}")) {
+               $("#delete_yes").click();
+            }
+         } 
+      });
+      $("#delete_no_visible").click( function() {
+         $("#delete_no").click();
+      });
+    });
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,38 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html>
+<head>
+   <title>{% trans "STIGMERGY" %}</title>
+
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+   <style type="text/css">
+    <!--
+        body {
+            background-color:#89c2e5;
+        }
+        #main {
+            position: absolute;
+            top: 10%;
+            left: 1%;
+            width: 98%;
+            text-align: center;
+            color:white;
+        }
+        #text {
+            position: relative;
+            top: 20px;
+        }
+    -->
+   </style>
+</head>
+<body>
+<div id="main">
+   <img src="{{STATIC_URL}}/img/maintain.png" alt="STIGMERGY" title="STIGMERGY" />
+   <div id="text">
+      <h2>{% trans "The STIGMERGY site is currently undergoing routine maintenance." %}</h2>
+   </div>
+</div>
+
+</body>
+</html>

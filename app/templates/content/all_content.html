@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+<div class="darkabout">
+<h1><a name="join" class="aboutheader">{% trans "Join STIGMERGY" %}</a></h1>
+<p>
+{% trans "Sign up today! It doesn't take long. Your privacy is a core concern, so none of the information we ask you for need uniquely identify you. For privacy, you can sign up over <a href=\"https://www.torproject.org/\">Tor</a>, and use an anonymous email account." %} 
+</p>
+<p>
+{% url user.views.register as signup %}
+{% blocktrans %}To join, just click on the <a href="{{ signup }}">Sign Up</a> button, and we'll guide you through the rest.{% endblocktrans %} 
+</p>
+<h1><a name="howisthisdifferent" class="aboutheader">{% trans "How is STIGMERGY different?" %} </a></h1>
+<p>
+{% trans "STIGMERGY gives you new friends to instantly build a mass global movement. Unlike traditional social networks, STIGMERGY is hardened against surveillance and attack. The primary spaces for online activism are watched by private and state intelligence agencies. STIGMERGY is built to counter this." %}
+</p>
+<p>
+{% trans "By design your details are encrypted, and hidden from everyone except your immediate contacts. Even we can't access them." %}
+</p>
+<p>
+{% trans "Connected by STIGMERGY, members will communicate how ever they like, including using secure person-to-person methods. As the network grows away from the site infrastructure, it becomes autonomous and decentralized, opaque to observers and impossible to compromise." %}
+</p>
+
+</div>
+{% endblock %}
+

@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+
+<script src="{{STATIC_URL}}/js/friend.js"></script>
+<style>
+.dropbutton {
+   margin-bottom:1em;
+}
+</style>
+
+{% if friend.speciality == "stillencrypted" %}
+<div class="alert-message">
+   <p>
+      {% trans "Sorry, but you cannot read the encrypted data of this friend because he has not logged in yet. Check back soon!" %}
+      <a href="#" style="color:#0069DF;" id="encrypted-info" rel="popover" title="{% trans "Encrypted friend" %}" data-content="{% trans "This is because the data of this friend can only be decrypted when he or she logs in. Remember, we can not read the data inside any account ourselves!" %}">(?)</a>
+   </p>
+</div>
+{% else %}
+   {% if friend.speciality == "droppedme" or friend.speciality == "deletedhimself" %}
+   <div class="alert-message error">
+      <p>
+         {% trans "Sorry, but you cannot read the encrypted data of this friend. They have either deleted themselves from the system or have dropped you from their friend list. You will soon be assigned a new friend in their place!" %}
+      </p>
+   </div>
+   {% endif %}
+{% endif %}
+
+{% if friend.speciality != "droppedme" and friend.speciality != "deletedhimself" %}
+<div class="row">
+   <div class="span6 columns">
+      <div id="map_canvas"></div>
+      <br/>
+      <table class="zebra-striped">
+         <tr>
+            <th>{% trans "Location" %}</th>
+            <td id="friend_location">{% if friend.speciality == "stillencrypted" %}{% trans "?" %}{% else %}{% trans "Coordinates:" %} {{ friend.profile.longitude }}, {{ friend.profile.latitude }}{% endif %}</td>
+         </tr>
+         <tr>
+            <th>{% trans "Distance from you" %}</th>
+            {% if ownPage %}
+               <td>{% trans "0 km" %}</td>
+            {% else %}
+               <td id="distance">{% trans "?" %}</td>
+            {% endif %}
+         </tr>
+      </table>
+
+      <br/>
+      <p>
+         {% comment %}
+         <form id="report-form" action="" method="post" style="display:inline">
+            {% csrf_token %}
+            <input id="friend_username" type="hidden" name="friend_username" value="{{ friend.user.username }}"/>
+            <input id="keep-button" type="submit" class="btn success {% if ownPage %}disabled{% endif %}" value="{% trans "Definitely keep this friend" %}" />
+         </form>
+         <br /><br />
+         {% endcomment %}
+         {% if ownPage %}
+            <a class="btn danger disabled">{% trans "Drop this contact and get another" %}</a>
+         {% else %}
+            <a href="#" id="drop-button" class="btn danger">{% trans "Drop this contact and get another" %}</a>
+         {% endif %}
+      </p>
+   </div>
+
+   <div class="span10 columns">
+      <p>
+      <b>{% blocktrans with friend_id=friend.profile.human_public_name %}{{ friend_id }} speaks these languages{% endblocktrans %}</b>
+      </p>
+      <div class="alert-message block-message info">
+         {% if friend.speciality == "stillencrypted" %}
+            {% trans "?" %}
+         {% else %}
+            {% for language in uniqueLanguages %}
+               {% get_language_info for language as lang %}
+               {% if lang.code in ownUniqueLanguages %} 
+                  <b><i>{% trans lang.name %}</i></b> {% comment %}({% trans "We matched you because you both speak this language" %})  COMMENT: This info is not really needed.{% endcomment %}
+               {% else %} 
+                  {% trans lang.name %}
+               {% endif %} 
+            {% endfor %}
+         {% endif %}
+      </div>
+
+      <p>
+         <b>{% blocktrans %}Contact details{% endblocktrans %}</b>
+      </p>
+      <div class="alert-message block-message info" style="overflow:auto;">
+         {% if friend.speciality == "stillencrypted" %}
+            {% trans "?" %}
+         {% else %}
+            {{ friend.profile.contact_info|linebreaksbr }}
+         {% endif %}
+      </div>
+
+      <p>
+         <b>{% blocktrans %}Additional information{% endblocktrans %}</b>
+      </p>
+      <div class="alert-message block-message info" style="overflow:auto;">
+         {% if friend.speciality == "stillencrypted" %}
+            {% trans "?" %}
+         {% else %}
+            {{ friend.profile.about_me|linebreaksbr }}
+         {% endif %}
+      </div>
+   </div>
+</div>
+{% if not ownPage %}
+   <div id="modal" class="modal" style="position: absolute; top: 135px; left: 25%; width:50%; margin: 0 auto; z-index: 10; display:none">
+      <div class="modal-header">
+         <h3>{% trans "Why do you want to drop this contact?" %}</h3>
+         <a href="#" class="close"></a>
+      </div>
+       <div class="modal-body">
+      <center>
+      <div class="block-message alert-message info">
+         {% trans "Your contact will not be informed of the reason.  We will find you another contact soon." %}
+      </div>
+         <a id="button-unresponsive" href="#" class="btn primary dropbutton" style="width:70%">{% trans "This person never logged in, or was unresponsive and did not reply to my communications." %}</a>
+         <a id="button-differences" href="#" class="btn primary dropbutton" style="width:70%">{% trans "This person and I were not really compatible. I would prefer a new friend." %}</a>
+         <a id="button-rude" href="#" class="btn danger dropbutton" style="width:70%">{% trans "I don't trust this person. They were rude, intimidating, or behaved suspiciously." %}</a>
+         <div id="dropcomment"  style="display:none;">
+            <br />
+            <textarea id="dropcomment_textarea" name="dropcomment" style="height:2em; width:70%;">{% trans "Optional: Enter your comments here." %}</textarea>
+            <br />
+            <br />
+            <div id="div_password" class="clearfix {% if passworderror %}error{% endif %}">
+               <label for="id_password">{% trans "Secure login key" %}</label>
+               <div class="input">
+                  <input class="passphrase" id="id_password" type="text" /><img class="prjicon" src="{{STATIC_URL}}/img/icons/safe.png" height="24px" />
+               </div>
+            </div>
+         </div>
+      </center>
+      </div>
+      <div class="modal-footer">
+         <a id="drop-info" rel="popover" title="{% trans "Dropping a contact" %}" data-content="{% trans "You have the option of dropping your contact. This means that you cannot read each others' information anymore. A new contact will automatically be requested for you in the next assignment round. If you wish to proceed, please choose from one of the three available reasons as to why you wish to drop them." %}" href="#">{% trans "What does this mean?" %}</a>
+         <a href="#" id="dropcancel" class="btn">{% trans "Cancel" %}</a>
+         <a class="btn danger" id="dropsubmit" href="#" style="display:none;">{% trans "Drop!" %}</a>
+      </div>
+   </div>
+<div id="background" style="display: none; position: absolute; height: 200%; width: 100%; top: 0; left: 0; background: #333333; z-index: 5; opacity: 0.4; cursor:pointer;"></div>
+{% endif %}
+<div class="backlink">
+      <a href='{% url user.views.profile_forwarding %}'>{% trans "Back to my profile" %}</a>
+</div>
+<div id="undefinedLocation" style="display: none;">{% trans "Somewhere at sea..." %}</div>
+{% if not ownPage %}
+   <form id="drop_form" action="{% url user.views.profile_forwarding %}" method="post" style="display:none">
+      {% csrf_token %}
+      <input id="dropped_fid" type="hidden" name="dropped_fid" value="{{ friend.profile.id }}"/>
+      <input id="dropped_reason" type="hidden" name="reason" />
+      <input id="loginphrase" type="hidden" name="loginphrase" />
+      <input id="dropped_comment" type="hidden" name="comment" />
+   </form>
+{% endif %}         
+{% endif %}         
+{% endblock %}

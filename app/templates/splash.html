@@ -1,0 +1,98 @@
+{% load i18n %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+   <title>{{ title }}</title>
+
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+   <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}/css/bootstrap.css">
+   <style type="text/css">
+    <!--
+        #entertoken {
+            position: absolute;
+            padding: 10px;
+            top: 25%;
+            left: 25%;
+            width: 50%;
+            text-align: center;
+            display: none;
+            background: white;
+            border-style: dotted;
+            border-width: 1px;
+            overflow:auto;
+        }
+        #logodiv {
+            position: absolute;
+            top: 10%;
+            left: 1%;
+            width: 98%;
+            text-align: center;
+        }
+        #langdiv {
+            position: relative;
+            top: 20px;
+        }
+        .language {
+            font-size: 1.2em;
+            margin-left:3px;
+            margin-top:3px;
+        }
+    -->
+   </style>
+   
+   <script src="{{STATIC_URL}}/js/jquery-1.6.3.min.js"></script>
+   <script src="{{STATIC_URL}}/js/bootstrap-twipsy.js"></script>
+   <script src="{{STATIC_URL}}/js/bootstrap-popover.js"></script>
+   <script type="text/javascript">
+   <!--
+      $(document).ready(function(){
+         $(".language").click(function(e){
+            e.preventDefault();
+            $("#lang_select option[value='"+$(this).val()+"']").attr('selected', 'selected');
+            $(".language.done").each(function(){$(this).removeClass('success');});
+            $(".language.done").each(function(){$(this).addClass('primary');});
+            $(this).removeClass('primary');
+            $(this).addClass('success');
+            $("#entertoken").fadeIn(400);
+         });
+
+      });
+   -->
+   </script>
+</head>
+
+<body>
+<div id="logodiv">
+<img src="{{STATIC_URL}}/img/project.gif" alt="STIGMERGY" title="STIGMERGY" />
+<div id="langdiv">
+{% for lang_key in SPLASH_LANGUAGES %}
+{% get_language_info for lang_key as lang %}
+{% if lang_key in TRANSLATED_LANGUAGES %}
+<button type="button" class="language btn primary done" value="{{ lang_key }}">{{ lang.name_local }}</button>
+{% else %}
+<button type="button" class="language btn" value="{{ lang_key }}" disabled="disabled">{{ lang.name_local }}</button>
+{% endif %}
+{% endfor %}
+<br /><br /><p>{% trans "Translations are still in progress..." %}</p>
+</div>
+</div>
+
+<div id="entertoken">
+<p>{% trans "Enter your registration token here:" %}</p>
+<form id="keyform" action="/" method="post">
+{% csrf_token %} 
+<input id="keyfield" type="text" name="token" size=35 style="width:350px;" />
+<input id="keysubmit" type="submit" class="btn primary" value="Go" />
+<br />
+<p style="font-size:0.8em">{% trans "Language: " %}
+<select style="font-size:0.8em" id="lang_select" name="language">
+   {% include "partials/site_lang_select.html" %}
+</select></p>
+</form>
+</div>
+
+</body>
+</html>

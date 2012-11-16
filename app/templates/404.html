@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+
+<p class="alert-message error">
+{% blocktrans with emailaddress=FEEDBACK_EMAIL%}Page not found. Email us at <a href="mailto:{{ emailaddress }}">{{ emailaddress }}</a> if you found a dead link!{% endblocktrans %}
+<br />(Error 404)
+</p> 
+
+{% endblock %}

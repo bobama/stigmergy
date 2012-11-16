@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+
+<p>
+<h3>{% trans "You have been logged out." %}</h3>
+</p>
+
+<p>
+   <h3><a href="{% url 'content.views.home' %}">{% trans "Return to the home page" %}</a></h3>
+</p>
+
+{% endblock %}

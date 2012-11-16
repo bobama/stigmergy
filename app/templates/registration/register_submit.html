@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% load i18n %} 
+
+{% block content %}
+
+<div class="alert-message success">
+    <br /><p style="font-size:1.3em;">{% blocktrans %}Thank you for registering with STIGMERGY!{% endblocktrans %}</p>
+<br />
+<br />
+<p style="font-size:1.1em;">
+{% url accounts.views.login_forwarding as websiteurl %}
+    {% blocktrans %}We assign friends about once a week so please keep checking to see who your new contacts are. You can <a href="{{ websiteurl }}" style="color:black">log in</a> now to see and edit your profile.{% endblocktrans %}
+</p>
+</div>
+
+{% endblock %}

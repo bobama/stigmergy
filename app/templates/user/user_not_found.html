@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% load i18n %} 
+
+{% block content %}
+<p>
+   {% blocktrans with friendid=friend_id %}The user <span class="monospace">{{ friendid }}</span> either does not exist or you two are not friends.{% endblocktrans %}
+</p>
+
+<p>
+   <a href="{% url user.views.profile_forwarding %}">{% trans "Back to my profile" %}</a>
+</p>
+{% endblock %}

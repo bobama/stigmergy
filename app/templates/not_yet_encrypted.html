@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+
+<p class="alert-message">
+{% trans "Your account is now being encrypted. When it is done, you can log in with your new secure login key. Please do not log in for at least 5 minutes, as the encryption may take some time to complete." %} 
+</p> 
+
+{% endblock %}

@@ -1,0 +1,179 @@
+   <style type="text/css">
+      html { 
+         height: 100% 
+      }
+      body { 
+         height: 100%; margin: 0px; padding: 0px 
+      }
+      #map_canvas_local { 
+         height: 300px; 
+         width: 700px;
+         border-color: #000;
+         border-style: solid;
+         border-width: 1px;
+      }
+      #map_canvas_remote { 
+         height: 300px; 
+         width: 700px;
+         border-color: #000;
+         border-style: solid;
+         border-width: 1px;
+      }
+      div.olControlAttribution {
+         display: none;
+      }
+
+   </style>
+
+   <script type="text/javascript"
+      src="{{STATIC_URL}}/openlayers/OpenLayers.js">
+   </script>
+
+   <script type="text/javascript">
+      function initialize() {
+
+         /* ================== global vars ==================== */
+
+         var proj = new OpenLayers.Projection("EPSG:4326");
+         var size = new OpenLayers.Size(21,25);
+         var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+         var red_icon = new OpenLayers.Icon('{{STATIC_URL}}/openlayers/img/marker.png', size, offset);
+         var gold_icon = new OpenLayers.Icon('{{STATIC_URL}}/openlayers/img/marker-gold.png', size, offset);
+         var green_icon = new OpenLayers.Icon('{{STATIC_URL}}/openlayers/img/marker-green.png', size, offset);
+
+         /* ================== local ==================== */
+
+         var local_bounds = new OpenLayers.Bounds();
+         var local_lonlats = new Array();
+         var local_hashids = new Array();
+         var local_marker_hash = {};
+
+         var myloclon = parseFloat("{{ user_profile.longitude }}".replace(",", "."));
+         var myloclat = parseFloat("{{ user_profile.latitude }}".replace(",", "."));
+         var my_local_lonlat = new OpenLayers.LonLat(myloclon, myloclat);
+         local_bounds.extend(my_local_lonlat);
+
+         {% for f in localFriends %}
+            var loclon = parseFloat("{{f.profile.longitude}}".replace(",", "."));
+            var loclat = parseFloat("{{f.profile.latitude}}".replace(",", "."));
+            var local_lonlat = new OpenLayers.LonLat(loclon, loclat);
+            local_bounds.extend(local_lonlat);
+            local_lonlats.push(local_lonlat);
+            local_hashids.push("{{ f.profile.id }}");
+         {% endfor %}
+
+         var local_map = new OpenLayers.Map("map_canvas_local");
+         var local_mapnik = new OpenLayers.Layer.OSM();
+         local_map.addLayer(local_mapnik);
+         local_bounds.transform(proj, local_map.getProjectionObject());
+         local_map.zoomToExtent(local_bounds);
+
+         var local_markers = new OpenLayers.Layer.Markers( "Markers" );
+         local_map.addLayer(local_markers);
+
+         my_local_lonlat.transform(proj, local_map.getProjectionObject());
+         var my_local_marker = new OpenLayers.Marker(my_local_lonlat, red_icon.clone());
+
+         {% for f in localFriends %}
+            var local_lonlat = local_lonlats[{{ forloop.counter0 }}];
+            local_lonlat.transform(proj, local_map.getProjectionObject());
+            var local_marker = new OpenLayers.Marker(local_lonlat, gold_icon.clone());
+            local_marker.events.register( 'click', local_marker, function() {
+               document.location = '/user/{{ f.profile.uid }}';
+            } );
+            local_marker.events.register( 'mouseover', local_marker, function() {
+               var username = local_hashids[{{ forloop.counter0 }}];
+               $('#link_' + username).css("color","green");
+               $('#link_' + username).html('<b>' + $('#link_' + username).text() + '</b>');
+               local_marker_hash[username].setUrl("{{STATIC_URL}}/openlayers/img/marker-green.png");
+            } );
+            local_marker.events.register( 'mouseout', local_marker, function() {
+               var username = local_hashids[{{ forloop.counter0 }}];
+               $('#link_' + username).css("color","");
+               $('#link_' + username).html($('#link_' + username).text());
+               local_marker_hash[username].setUrl("{{STATIC_URL}}/openlayers/img/marker-gold.png");
+            } );
+            local_markers.addMarker(local_marker);
+            local_marker_hash[local_hashids[{{ forloop.counter0 }}]] = local_marker;
+         {% endfor %}
+
+         // Add own marker on top of friends'
+         local_markers.addMarker(my_local_marker);
+
+         /* ================== remote ==================== */
+
+         var remote_bounds = new OpenLayers.Bounds();
+         var remote_lonlats = new Array();
+         var remote_hashids = new Array();
+         var remote_marker_hash = {};
+
+         var myremlon = parseFloat("{{ user_profile.longitude }}".replace(",", "."));
+         var myremlat = parseFloat("{{ user_profile.latitude }}".replace(",", "."));
+         var my_remote_lonlat = new OpenLayers.LonLat(myremlon, myremlat);
+         remote_bounds.extend(my_remote_lonlat);
+
+         {% for f in remoteFriends %}
+            var remlon = parseFloat("{{f.profile.longitude}}".replace(",", "."));
+            var remlat = parseFloat("{{f.profile.latitude}}".replace(",", "."));
+            var remote_lonlat = new OpenLayers.LonLat(remlon, remlat);
+            remote_bounds.extend(remote_lonlat);
+            remote_lonlats.push(remote_lonlat);
+            remote_hashids.push("{{ f.profile.uid }}");
+         {% endfor %}
+
+         var remote_map = new OpenLayers.Map("map_canvas_remote");
+         var remote_mapnik = new OpenLayers.Layer.OSM();
+         remote_map.addLayer(remote_mapnik);
+         remote_bounds.transform(proj, remote_map.getProjectionObject());
+         remote_map.zoomToExtent(remote_bounds);
+
+         var remote_markers = new OpenLayers.Layer.Markers( "Markers" );
+         remote_map.addLayer(remote_markers);
+
+         my_remote_lonlat.transform(proj, remote_map.getProjectionObject());
+         var my_remote_marker = new OpenLayers.Marker(my_remote_lonlat, red_icon.clone());
+
+         {% for f in remoteFriends %}
+            var remote_lonlat = remote_lonlats[{{ forloop.counter0 }}];
+            remote_lonlat.transform(proj, remote_map.getProjectionObject());
+            var remote_marker = new OpenLayers.Marker(remote_lonlat, gold_icon.clone());
+            remote_marker.events.register( 'click', remote_marker, function() {
+               document.location = '/user/{{ f.profile.id }}';
+            } );
+            remote_marker.events.register( 'mouseover', remote_marker, function() {
+               var username = remote_hashids[{{ forloop.counter0 }}];
+               $('#link_' + username).css("color","green");
+               $('#link_' + username).html('<b>' + $('#link_' + username).text() + '</b>');
+               remote_marker_hash[username].setUrl("{{STATIC_URL}}/openlayers/img/marker-green.png");
+            } );
+            remote_marker.events.register( 'mouseout', remote_marker, function() {
+               var username = remote_hashids[{{ forloop.counter0 }}];
+               $('#link_' + username).css("color","");
+               $('#link_' + username).html($('#link_' + username).text());
+               remote_marker_hash[username].setUrl("{{STATIC_URL}}/openlayers/img/marker-gold.png");
+            } );
+            remote_markers.addMarker(remote_marker);
+            remote_marker_hash[remote_hashids[{{ forloop.counter0 }}]] = remote_marker;
+         {% endfor %}
+
+         // Add own marker on top of friends'
+         remote_markers.addMarker(my_remote_marker);
+         
+         $.global = {
+            local_marker_hash: local_marker_hash,
+            remote_marker_hash: remote_marker_hash
+         };
+
+      $('img[id^="OL_Icon_"]').each(function() {
+         if ($(this).attr("src") !== "{{STATIC_URL}}/openlayers/img/marker.png") {
+            $(this).hover(function() {
+               $(this).css('cursor','pointer');
+            }, function() {
+               $(this).css('cursor','auto');
+            });
+         }
+      });
+
+      } // initialize
+
+   </script>

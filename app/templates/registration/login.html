@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% load url from future %}
+
+{% block content %}
+<script src="{{STATIC_URL}}/js/login.js"></script>
+
+{% if just_logged_out %}
+<a href="{% url 'content.views.home' %}">
+    <div class="alert-message info">
+        <p>{% trans "Return to the home page" %}</p>
+    </div>
+</a>
+{% endif %}
+
+{% if form.errors %}
+<div class="alert-message error">
+    <p>{% trans "Your login failed." %}</p>
+    <p>
+        {% if captchaerror %}
+            {% trans "Your entry does not match the captcha, please try again." %}
+        {% else %}
+            {% trans "The email/password or the login key you entered are not valid. Note that all fields are case-sensitive." %}
+        {% endif %}
+    </p>
+</div>
+{% endif %}
+
+<div class="row">
+    <div id="loginphrase_container" class="span7 columns offset4 alert-message block-message info">
+        <form method="post" action="{% url 'accounts.views.login_forwarding' %}">
+            {% csrf_token %}
+            <div id="div_loginphrase" class="clearfix">
+                <label for="id_loginphrase">{% trans "Secure login key" %}</label>
+                <div class="input">
+                    <input class="passphrase" id="id_loginphrase" type="text" maxlength="22" autocomplete="off" name="loginphrase" value="{{ savedphrase }}">
+                </div>
+            </div>
+            {% include "partials/captcha.html" %}
+            <br />
+            <center>
+                <input id="phrasesubmit" type="submit" value="{% trans "Encrypted login" %}" class="btn success"/>
+                <a href="#" id="new-login-info" rel="popover" title="{% trans "Encrypted login" %}" data-content="{% trans "Encrypted login refers to the new system of data protection that STIGMERGY implements, whereby your data is completely encrypted and your secure login key is the only key that can decrypt it. This represents a completely new data retention philosophy in social networking: data minimisation. We aim to minimise the amount of data that you input, and minimise who can read this data." %}" >?</a>
+            </center>
+            <input type="hidden" name="next" value="{{ next }}" />
+        </form>
+    </div>
+    <div id="pleaseWait" style="display:none;" class="span7 columns offset4 alert-message block-message info">
+        <h5>{% trans "Please Wait..." %}</h5> 
+        <br />   
+        <center><img src="{{STATIC_URL}}/img/loading.gif" alt="loading..." title="loading..." /></center>
+        <br />
+        <p>{% trans "We are decrypting the information that you and your friends have entered. This might take up some seconds..." %}</p>
+    </div>
+</div>
+<div style="display:none; position:absolute;" id="loadingGif">
+    <img src="{{STATIC_URL}}/img/loading.gif" alt="loading..." title="loading..." />
+</div>
+
+{% endblock %}

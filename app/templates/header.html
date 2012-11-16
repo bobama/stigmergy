@@ -1,0 +1,106 @@
+{% load i18n %}
+
+{% load url from future %}
+
+<!DOCTYPE html>
+<html>
+<head>
+   <title>{% if title %}{{ title }}{% else %}{% trans "STIGMERGY" %}{% endif %}</title>
+
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+   <link rel="icon" type="image/ico" href="{{STATIC_URL}}/img/icons/favicon.ico">
+
+   <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}/css/bootstrap.css">
+   <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}/css/custom.css" />
+
+   <script src="{{STATIC_URL}}/js/jquery-1.6.3.min.js"></script>
+   <script src="{{STATIC_URL}}/js/jquery-cookie.js"></script>
+   <script src="{{STATIC_URL}}/js/bootstrap-twipsy.js"></script>
+   <script src="{{STATIC_URL}}/js/bootstrap-popover.js"></script>
+
+   {% if use_maps_single %}
+      {% include "openstreetmaps_single.html" %}
+   {% endif %}
+   {% if use_maps_multiple %}
+      {% include "openstreetmaps_multiple.html" %}
+   {% endif %}
+</head>
+{% if use_maps_single or use_maps_multiple %}
+<body onload="initialize()">
+{% else %}
+<body>
+{% endif %}
+
+<div class="container">
+
+<div id="header">
+   <div id="menu" class="topbar">
+      <div class="fill">
+         <div class="container">
+
+               <h3>
+                  <a href="{% url "content.views.home" %}"><img src="{{STATIC_URL}}/img/project.gif" height="36" alt="STIGMERGY" title="STIGMERGY" align="absmiddle" />
+                  {% trans "STIGMERGY" %}</a>
+               </h3>
+
+            <ul class="nav">
+               {% if not user.is_authenticated or forceLoginLink %}
+                  <li>
+                     <a href="{% url "user.views.register" %}">{% trans "Sign Up" %}</a>
+                  </li>
+                  <li>
+                     <a href="{% url "accounts.views.login_forwarding" %}">{% trans "Login" %}</a>
+                  </li>
+
+               {% else %}
+                     <li>
+                        <a href="{% url "user.views.profile_forwarding" %}">{% trans "Profile" %}</a>
+                     </li>
+                     <li>
+                        <a href="{% url "user.views.edit_forwarding" clicked="" %}">{% trans "Edit Profile" %}</a>
+                     </li>
+                     <li>
+                        <a href="{% url "accounts.views.logout_forwarding" %}">{% trans "Logout" %}</a>
+                     </li>
+               {% endif %}
+            </ul>
+            <ul class="nav secondary-nav">
+               <li>
+                  <a href="{% url "user.views.select_lang" %}">{% trans "Language" %} ({{ LANGUAGE_CODE }})</a>
+               </li>
+            </ul>
+         </div>
+      </div>
+   </div>
+   <br/>
+   <br/>
+   <br/>
+   {% if not TRANSLATIONS_DONE and not LANGUAGE_CODE == "en" and not hide_lang_box %}
+      <div id="lang_box" class="alert-message info">
+         {% trans "This translation might not be complete yet. Use with care!" %}<a id="hide_lang_link" class="close" href="#">X</a>
+      </div>
+      <script>
+         $(document).ready(function(){
+            $("#hide_lang_link").click(function(e){
+               e.preventDefault();
+               $.cookie('hide_lang_box', 'True', { path: '/', secure: {{ SESSION_COOKIE_SECURE|lower }} });
+               $("#lang_box").hide();
+            });
+         });
+      </script>
+   {% endif %}
+   <noscript>
+      <div id="noscript_box" class="alert-message alert">
+        {% trans "You need to enable JavaScript to use all the features of this website." %}
+     </div>
+   </noscript>
+   {% if title %}
+      <div id="titlediv">
+         <h2 id="title">{{ title }}</h2>
+         {% if subtitle %}
+            <h3 id="subtitle">{{ subtitle }}</h3>
+         {% endif %}
+      </div>
+      <hr/>
+   {% endif %}
+</div>

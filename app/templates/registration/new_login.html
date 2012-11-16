@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+
+<div id="new_login" class="alert-message">
+   <p>
+      {% trans "In order to securely encrypt your data, we are changing the way you log in." %}
+   </p>
+   <p>
+      {% trans "Please write this down, it will be your only way to access your friends' data:" %}
+   </p>
+   <br />
+   <p>
+      <img width="960px" height="100px" src="/static/img/pleasewriteitdown.gif" z-index="2" style="position:absolute; margin-left:-20px; margin-top:-32px;">
+      <center><h1 id="loginphrase">
+         {{ loginphrase|slice:"0:4" }}&nbsp;{{ loginphrase|slice:"4:8" }}&nbsp;{{ loginphrase|slice:"8:12" }}&nbsp;{{ loginphrase|slice:"12:16" }}
+      </h1></center>
+   </p>
+   <p>
+      {% trans "Please enter it in the box to confirm that you have written it down. You will not be able to log in with your email and password again after confirming this code." %}
+   </p>
+   <br />
+   <p>
+      <a href="#" id="encryption-info" rel="popover" title="{% trans "Profile Encryption" %}" data-content="{% trans "Encrypted login refers to the new system of data protection that STIGMERGY implements, whereby your data is completely encrypted and your secure login key is the only key that can decrypt it. This represents a completely new data retention philosophy in social networking: data minimisation. We aim to minimise the amount of data that you input, and minimise who can read this data." %}" style="color:#0069DF;">{% trans "What is happening?" %}</a>
+   </p>
+   <form method="post" id="visForm">
+   <center><input id="submit" type="submit" value="{% trans "OK, got it!" %}" class="btn primary"/></center>
+   </form>
+</div>
+<div id="pleaseWait" style="display:none;">
+   <div class="alert-message block-message success">
+      <p>{% trans "Thank you for registering for STIGMERGY. Please do not log in for at least 5 minutes as encryption of your account may take some time to complete." %}</p>
+   </div>
+</div>
+   <form method="post" id="hiddenForm" style="display:none;">
+      {% csrf_token %}
+      <input id="hidden_loginphrase" type="text" autocomplete="off" maxlength="22" name="loginphrase">
+   </form>
+<br />
+<br />
+<br />
+<br />
+
+<script>
+
+$(document).ready(function(){
+
+   $('#encryption-info').popover().
+      click(function(e){
+         e.preventDefault();
+   });
+   
+   $("#visForm").submit(function(e) {
+      e.preventDefault();
+      $("#loginphrase").hide();
+      p = prompt("{% trans "To make sure you have written down the secure login key correctly, please enter it here." %}","");
+      $("#loginphrase").show();
+      if (p) {
+         p = $.trim(p).toUpperCase().split(' ').join('');
+         if (p === "{{ loginphrase }}") {
+            $("#hidden_loginphrase").val(p);
+            $("#new_login").hide();
+            $("#pleaseWait").show();
+            $("#hiddenForm").submit();
+         } else {
+            alert("{% trans "Wrong. You will NOT be able to log in without this key!" %}");
+         }
+      }
+   });
+   
+});
+
+
+</script>
+</script>
+
+
+{% endblock %}

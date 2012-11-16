@@ -1,0 +1,5 @@
+{% load i18n %}
+
+{% for lang_key, language in SPOKEN_LANGUAGES %}
+<option value="{{ lang_key }}" {% if saved_lang %}{% if lang_key == saved_lang %}selected="selected"{% endif %}{% else %}{% if lang_key == LANGUAGE_CODE %}selected="selected"{% endif %}{% endif %}>{% get_language_info for lang_key as lang %}{{ lang.name_local }} ({{ lang_key }})</option> 
+{% endfor %}

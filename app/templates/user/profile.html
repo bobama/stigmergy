@@ -1,0 +1,250 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% load url from future %}
+
+{% block content %}
+
+{% if message %}
+   <div class="alert-message">
+      {{ message }}
+   </div>
+{% endif %}
+
+{% if success_message %}
+   <div class="alert-message success">
+      {{ success_message }}
+   </div>
+{% endif %}
+
+{% if localFriends|length == 0 and remoteFriends|length == 0 %}
+   <div class="alert-message">
+      <h4>{% trans "Hey, why don't I have any contacts?" %}</h4>
+      <p>
+         {% trans "We assign friends on a regular basis, about once a week. Keep checking back to see your friends." %}
+      <p>
+   </div>
+{% else %}
+   <p style="color:red;">{% trans "IMPORTANT: Please write down the contact details of all your friends and store them somewhere safe." %}
+   <a id="store-info-twipsy" rel="twipsy" title='{% trans "For example in your phone, on your computer, in your diary, or even on a piece of paper" %}' href="#">(?)</a>
+   <br />{% trans "If you lose access to your account, they can not be recovered by anybody." %}</p>
+{% endif %}
+
+
+<div class="row">
+   <div class="span16 columns" style="overflow:hidden;">
+      <b>{% trans "My information" %}:</b> <a id="link_change_info" name="change_info" href="{% url "user.views.edit_forwarding" clicked=""%}" style="float:right"><img class="prjicon" src="{{STATIC_URL}}/img/icons/edit.png" id="edit_icon" rel="popover" title="{% trans "Edit Info" %}" data-content="{{ f.profile.contact_info }}" height="32px" />{% trans "Edit" %}</a>
+      <table class="zebra-striped" style="table-layout:fixed;">
+         <tr>
+            <th style="width:10%;" rowspan=2>{% trans "Location" %}</th>
+            <td style="width:35%;" rowspan=2><a id="my_location" href="{% url 'user.views.edit_forwarding' clicked="location"%}" title="Edit...">{{ profile.latitude|floatformat }}, {{ profile.longitude|floatformat }}</a></td>
+            <th style="width:10%;border-left: 1px solid #DDDDDD;text-align:center;">{% trans "Email" %}</th>
+            <td style="width:45%;"><a id="my_email" href="{% url 'user.views.edit_forwarding' clicked="email"%}" title="Edit...">{% if profile.email %}{{ profile.email }}</a> ({% trans "hidden" %}){% else %}No email saved{% endif %}</td>
+         </tr>
+         <tr >
+            <th style="border-left: 1px solid #DDDDDD;text-align:center;">{% trans "Languages" %}</th>
+            <td>
+               <a id="my_languages" href="{% url 'user.views.edit_forwarding' clicked="languages"%}" title="Edit...">{% for language in ownUniqueLanguages %}
+                     {% get_language_info for language as lang %}
+                     {% trans lang.name %}{% if not forloop.last %},{% endif %}
+               {% endfor %}
+               </a>
+            </td>
+         </tr>
+         <tr>
+            <th>{% trans "Contact info" %}</th>
+            <td colspan="3"><a href="{% url 'user.views.edit_forwarding' clicked="contact"%}" title="Edit...">{{ profile.contact_info|linebreaksbr }}</a></td>
+         </tr>
+         <tr>
+            <th>{% trans "About me" %}</th>
+            <td colspan="3"><a href="{% url 'user.views.edit_forwarding' clicked="about"%}" title="Edit...">{{ profile.about_me|linebreaksbr }}</a></td>
+         </tr>
+      </table>
+   </div>
+</div>
+
+{% if localFriends|length > 0 or remoteFriends|length > 0 %}
+   <div class="row">
+      <div class="offset4 span12 columns" style="text-align:center;">
+         <div class="alert-message">
+            <p>
+            <img src="{{STATIC_URL}}/openlayers/img/marker.png"/>
+            {% trans "My location" %}
+            <img src="{{STATIC_URL}}/openlayers/img/marker-gold.png"/>
+            {% trans "My friends" %}
+            </p>
+            <p style="display:none;">
+            <img src="{{STATIC_URL}}/openlayers/img/marker-green.png"/>
+            </p>
+         </div>
+      </div>
+   </div>
+{% endif %}
+
+{% if localFriends|length > 0 %}
+   <div class="row">
+      <div class="span4 columns">
+         <div id="localFriends">
+            <b>{% trans "Friends in my local area" %}</b>
+            <table class="zebra-striped">
+               {% for f in localFriends %}
+                  {% if f.profile.uid != droppedFriend %}
+                     <tr id="rows_{{ f.profile.uid }}" class="friendlink-local">
+                        <td class="{% if f.speciality %}{{ f.speciality }}{% else %}{% if f.profile.uid in newFriends %}newfriend{% endif %}{% endif %}">
+                           <a id="link_{{ f.profile.uid }}" name="{{ f.profile.uid }}" href="{% url "user.views.user_forwarding" friend_id=f.profile.uid %}">{{ f.profile.human_public_name }} </a>
+                           {% if not f.speciality %}<img src="{{STATIC_URL}}/img/icons/contact.png" id="icon_{{ f.profile.uid }}" rel="popover" class="prjicon contacticon" title="{% trans "Contact details" %}" data-content="{{ f.profile.contact_info }}" height="24px" />{% endif %}
+                           {% if f.speciality == "stillencrypted" %}<img src="{{STATIC_URL}}/img/icons/safe.png" id="icon_{{ f.profile.uid }}" rel="popover" class="prjicon contacticon" title="{% trans "Encrypted friend" %}" data-content="{% trans "Sorry, but you cannot read the encrypted data of this friend because he has not logged in yet. Check back soon!" %} {% trans "This is because the data of this friend can only be decrypted when he or she logs in. Remember, we can not read the data inside any account ourselves!" %}" height="24px" />{% endif %}
+                           {% if f.speciality == "droppedme" or f.speciality == "deletedhimself" %}<img src="{{STATIC_URL}}/img/icons/cancel.png" id="icon_{{ f.profile.uid }}" rel="popover" class="prjicon contacticon" title="{% trans "Contact no longer readable" %}" data-content="{% trans "Sorry, but you cannot read the encrypted data of this friend. They have either deleted themselves from the system or have dropped you from their friend list. You will soon be assigned a new friend in their place!" %}" height="24px" />{% endif %}
+                           {%comment%} DEVELOPER: The drop and keep icons really don't need to be here. They should be more hidden - i.e. on the friends' profile page.
+                              <img style="float:right;" src="{{STATIC_URL}}/img/icons/cancel.png" id="drop_{{ f.profile.uid }}" rel="twipsy" class="prjicon dropicon" title="{% trans "Drop this contact" %}" height="24px" />
+                              <img style="float:right;" src="{{STATIC_URL}}/img/project.gif" id="keep_{{ f.profile.uid }}" rel="twipsy" class="prjicon keepicon" title="{% trans "Keep this contact" %}" height="24px" />
+                           {%endcomment%}
+                        </td>
+                     </tr>
+                  {% endif %}
+               {% endfor %}
+            </table>
+         </div>
+      </div>
+      <div class="span12 columns">
+         <div id="map_canvas_local"></div>
+      </div>
+   </div>
+{% endif %}
+
+{% if remoteFriends|length > 0 %}
+   <div class="row">
+      <div class="span4 columns">
+         <div id="remoteFriends">
+            <b>{% trans "Friends around the world" %}</b>
+            <table class="zebra-striped">
+               {% for f in remoteFriends %}
+                  {% if f.profile.uid != droppedFriend %}
+                     <tr id="rows_{{ f.profile.uid }}" class="friendlink-remote">
+                        <td class="{% if f.speciality %}{{ f.speciality }}{% else %}{% if f.profile.uid in newFriends %}newfriend{% endif %}{% endif %}">
+                           <a id="link_{{ f.profile.uid }}" name="{{ f.profile.uid }}" href="{% url "user.views.user_forwarding" friend_id=f.profile.uid %}">{{ f.profile.human_public_name }} </a>
+                           {% if not f.speciality %}<img src="{{STATIC_URL}}/img/icons/contact.png" id="icon_{{ f.profile.uid }}" rel="popover" class="prjicon contacticon" title="{% trans "Contact details" %}" data-content="{{ f.profile.contact_info }}" height="24px" />{% endif %}
+                           {% if f.speciality == "stillencrypted" %}<img src="{{STATIC_URL}}/img/icons/safe.png" id="icon_{{ f.profile.uid }}" rel="popover" class="prjicon contacticon" title="{% trans "Encrypted friend" %}" data-content="{% trans "Sorry, but you cannot read the encrypted data of this friend because he has not logged in yet. Check back soon!" %} {% trans "This is because the data of this friend can only be decrypted when he or she logs in. Remember, we can not read the data inside any account ourselves!" %}" height="24px" />{% endif %}
+                           {% if f.speciality == "droppedme" or f.speciality == "deletedhimself" %}<img src="{{STATIC_URL}}/img/icons/cancel.png" id="icon_{{ f.profile.uid }}" rel="popover" class="prjicon contacticon" title="{% trans "Contact no longer readable" %}" data-content="{% trans "Sorry, but you cannot read the encrypted data of this friend. They have either deleted themselves from the system or have dropped you from their friend list. You will soon be assigned a new friend in their place!" %}" height="24px" />{% endif %}
+                           {%comment%} DEVELOPER: The drop and keep icons really don't need to be here. They should be more hidden - i.e. on the friends' profile page.
+                              <img style="float:right;" src="{{STATIC_URL}}/img/icons/cancel.png" id="drop_{{ f.profile.uid }}" rel="twipsy" class="prjicon dropicon" title="{% trans "Drop this contact" %}" height="24px" />
+                              <img style="float:right;" src="{{STATIC_URL}}/img/project.gif" id="keep_{{ f.profile.uid }}" rel="twipsy" class="prjicon keepicon" title="{% trans "Keep this contact" %}" height="24px" />
+                           {%endcomment%}
+                        </td>
+                     </tr>
+                  {% endif %}
+               {% endfor %}
+            </table>
+         </div>
+      </div>
+      <div style="margin-top:5px;" class="span12 columns">
+         <div id="map_canvas_remote"></div>
+      </div>
+   </div>
+{% endif %}
+<div id="ownlink" style="display:none">
+   <h3 style="display: inline;">
+      (<a href='{% url "user.views.user_forwarding" friend_id=profile.uid %}'>{{ profile.uid }}</a>)
+   </h3>
+</div>
+<div id="background" style="display: none; position: absolute; height: 200%; width: 100%; top: 0; left: 0; background:#333333; z-index: 5000; opacity: 0.4; cursor:pointer;"></div>
+
+
+<script>
+$(document).ready(function(){
+
+   $(".friendlink-local").hover(function() {
+      var username = $(this).attr("id").substr(5);
+      $.global.local_marker_hash[username].setUrl("{{STATIC_URL}}/openlayers/img/marker-green.png");
+      $.global.local_marker_hash[username].inflate(5/4);
+   }, function() {
+      var username = $(this).attr("id").substr(5);
+      $.global.local_marker_hash[username].setUrl("{{STATIC_URL}}/openlayers/img/marker-gold.png");
+      $.global.local_marker_hash[username].inflate(4/5);
+   });
+
+   $(".friendlink-remote").hover(function() {
+      var username = $(this).attr("id").substr(5);
+      $.global.remote_marker_hash[username].setUrl("{{STATIC_URL}}/openlayers/img/marker-green.png");
+      $.global.remote_marker_hash[username].inflate(5/4);
+   }, function() {
+      var username = $(this).attr("id").substr(5);
+      $.global.remote_marker_hash[username].setUrl("{{STATIC_URL}}/openlayers/img/marker-gold.png");
+      $.global.remote_marker_hash[username].inflate(4/5);
+   });
+
+   $('.contacticon').popover({
+      trigger:"manual",
+   }).
+      twipsy().
+         css("cursor", "pointer").
+            click(function() {
+               $(this).popover('show');
+               $("#background").show();
+            });
+
+   $("#background").click(function() {
+      $(".popover").hide();
+      $("#background").hide();
+   });
+
+   $('#edit_icon').twipsy();
+   $('#store-info-twipsy').click(function (e) {
+      e.preventDefault();
+   }).
+      twipsy();
+{%comment%}
+   $('.dropicon').twipsy();
+   $('.keepicon').twipsy();
+{%endcomment%}
+
+   //
+   // Reverse geocoding
+   //
+   var url = 'http://nominatim.openstreetmap.org/reverse';
+   var data = {
+      lat: parseFloat("{{ profile.latitude }}".replace(",", ".")),
+      lon: parseFloat("{{ profile.longitude }}".replace(",", ".")),
+      format: 'json'
+   };
+   $.getJSON(url, data, function(json, status, request){
+      if (status == "success") {
+         var place = "";
+         var address = json['address'];
+         if (address) {
+            place += address['country'] ? address['country'] : "";
+            place = (address['city'] ? address['city'] + ", " : "") + place;
+            if (address['city_district']) {
+               place = "" + address['city_district'] + ", " + place;
+            } else if (address['suburb']){
+               place = "" + address['suburb'] + ", " + place;
+            }
+            place = (address['road'] ? address['road'] + ", " : "") + place;
+            if (place === "") {
+               for (var key in address) {
+                  place += address[key];
+               }
+            }
+         }
+         
+         if (place === "") {
+            place += json["display_name"] ? json["display_name"] : "";
+         }
+         if (place === "") {
+            place += json["error"] ? json["error"] : "";
+         }
+                  
+         $("#my_location").fadeOut(function (){
+            $("#my_location").html(place);
+            $("#my_location").fadeIn();
+         });
+      }
+   });
+   
+   $("#title").css({"display": "inline","margin-right":"20px"}).after($("#ownlink").html());
+   
+});
+</script>
+
+{% endblock %}

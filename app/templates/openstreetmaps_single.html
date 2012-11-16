@@ -1,0 +1,182 @@
+   <style type="text/css">
+      html { 
+         height: 100% 
+      }
+      body { 
+         height: 100%; margin: 0px; padding: 0px 
+      }
+      #map_canvas { 
+         height: 300px; 
+         width: 340px;
+         border-color: #000;
+         border-style: solid;
+         border-width: 1px;
+      }
+      div.olControlAttribution {
+         display: none;
+      }
+   </style>
+
+   <script type="text/javascript"
+      src="{{STATIC_URL}}/openlayers/OpenLayers.js">
+   </script>
+
+   <script type="text/javascript">
+      rad = function(x) {return x*Math.PI/180;}
+
+      distHaversine = function(p1, p2) {
+         var R = 6371;
+         var dLat  = rad(p2.lat - p1.lat);
+         var dLong = rad(p2.lon - p1.lon);
+
+         var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+         Math.cos(rad(p1.lat)) * Math.cos(rad(p2.lat)) * Math.sin(dLong/2) * Math.sin(dLong/2);
+         var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+         var d = R * c;
+
+         try {
+            if (d < 10){
+               return d.toFixed(1);
+            } else if (d > 1000) {
+               return d.toFixed(-2);
+            } else if (d > 100) {
+               return d.toFixed(-1);
+            } else {
+               return d.toFixed(0);
+            }
+         } catch (e){
+            if (e.name === "RangeError") {
+               // negative rounding not supported
+               return d.toFixed(0);
+            } else {
+               throw e
+            }
+         }
+         
+         
+      }
+
+      function initialize() {
+
+         var proj = new OpenLayers.Projection("EPSG:4326");
+         var size = new OpenLayers.Size(21,25);
+         var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+         var gold_icon = new OpenLayers.Icon('{{STATIC_URL}}/openlayers/img/marker-gold.png', size, offset);
+         {% if cityDict.longitude and cityDict.latitude %}
+            var friendlon = parseFloat("{{ cityDict.longitude }}".replace(",", "."));
+            var friendlat = parseFloat("{{ cityDict.latitude }}".replace(",", "."));
+         {% else %}
+            var friendlon = null
+            var friendlat = null
+         {% endif %}
+         var lonlat = new OpenLayers.LonLat(friendlon, friendlat);
+         var mapnik = new OpenLayers.Layer.OSM();
+         var bounds = new OpenLayers.Bounds();
+         var markers = new OpenLayers.Layer.Markers( "Markers" );
+
+         var map = new OpenLayers.Map("map_canvas");
+         map.addLayer(mapnik);
+         map.addLayer(markers);
+         if ($.global) {
+            map.addControl($.global.Navigation);
+         }
+
+         lonlat.transform(proj, map.getProjectionObject());
+         bounds.extend(lonlat);
+
+         var marker = new OpenLayers.Marker(lonlat, gold_icon.clone());
+         markers.addMarker(marker);
+
+         {% if cityDict.longitude and cityDict.latitude %}
+            {% if friendTypetype == "global" %}
+               map.zoomTo(3);
+            {% else %}
+               map.zoomTo(10);
+            {% endif %}
+         {% else %}
+            map.zoomTo(0);
+         {% endif %}
+         map.setCenter(lonlat);
+
+         if ($.global) {
+            $.global['map'] = map;
+            $.global['marker'] = marker;
+            $.global['lonlat'] = lonlat;
+            $.global['markers'] = markers;
+            $.global['gold_icon'] = gold_icon;
+         } else {
+            $.global = {
+               map : map,
+               marker: marker,
+               lonlat: lonlat,
+               markers: markers,
+               gold_icon: gold_icon,
+               dblClickHandler: function() {}
+            };
+         }
+
+         {% if geocoder %}
+         {% comment %} TODO {% endcomment %}
+         {% endif %}
+
+         {% if friendType %}
+            {% if cityDict.longitude and cityDict.latitude %}
+               var theirlon = parseFloat("{{ cityDict.longitude }}".replace(",", "."));
+               var theirlat = parseFloat("{{ cityDict.latitude }}".replace(",", "."));
+               var theirlonlat = new OpenLayers.LonLat(theirlon, theirlat);
+               var mylon = parseFloat("{{ profile.longitude }}".replace(",", "."));
+               var mylat = parseFloat("{{ profile.latitude }}".replace(",", "."));
+               var mylonlat = new OpenLayers.LonLat(mylon, mylat);
+               
+               var distance = Math.max(distHaversine(theirlonlat, mylonlat), 0.1) + " km";
+               $("#distance").html(distance);
+               
+               //
+               // Reverse geocoding
+               //
+               var url = 'http://nominatim.openstreetmap.org/reverse';
+               var data = {
+                  lat: theirlat,
+                  lon: theirlon,
+                  format: 'json'
+               };
+               $.getJSON(url, data, function(json, status, request){
+                  if (status == "success") {
+                     var place = "";
+                     var address = json['address'];
+                     if (typeof(address) === "undefined") {
+                        place += json["display_name"] ? json["display_name"] : "";
+                        if (place === "") {
+                           place = $("#undefinedLocation").html()
+                        }
+                     } else {
+                        place += address['country'] ? address['country'] : "";
+                        place = (address['city'] ? address['city'] + ", " : "") + place;
+                        if (address['city_district']) {
+                           place = "" + address['city_district'] + ", " + place;
+                        } else if (address['suburb']){
+                           place = "" + address['suburb'] + ", " + place;
+                        }
+                        {% if friendType != "global" %}
+                           place = (address['road'] ? address['road'] + ", " : "") + place;
+                        {% endif %}
+                        if (place === "") {
+                           for (var key in address) {
+                              place += address[key];
+                           }
+                        }
+                        if (place === "") {
+                           place += json["error"] ? json["error"] : "";
+                        }
+                     }
+                     $("#friend_location").fadeOut(function (){
+                        $("#friend_location").html(place);
+                        $("#friend_location").fadeIn();
+                     });
+                  }
+               });
+            {% endif %}
+         {% endif %}
+
+      }
+   </script>

@@ -1,0 +1,39 @@
+{% load i18n %}
+<table class="zebra-striped">
+   <tr>
+      <td>{% trans "I'll communicate with contact one in:" %}</td>
+      <td><select id="lang_0" name="lang_0">
+            {% include "partials/lang_select.html" with saved_lang=lang_0 %}
+      </select></td>
+   </tr>
+   <tr>
+      <td>{% trans "I'll communicate with contact two in:" %}</td>
+      <td><select id="lang_1" name="lang_1">
+            {% include "partials/lang_select.html" with saved_lang=lang_1 %}
+      </select></td>
+   </tr>
+   <tr>
+      <td>{% trans "I'll communicate with contact three in:" %}</td>
+      <td><select id="lang_2" name="lang_2">
+            {% include "partials/lang_select.html" with saved_lang=lang_2 %}
+      </select></td>
+   </tr>
+   <tr>
+      <td>{% trans "I'll communicate with contact four in:" %}</td>
+      <td><select id="lang_3" name="lang_3">
+            {% include "partials/lang_select.html" with saved_lang=lang_3 %}
+      </select></td>
+   </tr>
+   <tr>
+      <td>{% trans "I'll communicate with contact five in:" %}</td>
+      <td><select id="lang_4" name="lang_4">
+            {% include "partials/lang_select.html" with saved_lang=lang_4 %}
+      </select></td>
+   </tr>
+   <tr>
+      <td>{% trans "I'll communicate with contact six in:" %}</td>
+      <td><select id="lang_5" name="lang_5">
+            {% include "partials/lang_select.html" with saved_lang=lang_5 %}
+      </select></td>
+   </tr>
+</table>
