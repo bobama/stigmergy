@@ -65,15 +65,23 @@ You need the following base packages installed:
 Additional Python modules may be required depending on your local
 installation. 
 
+### Base directory
+
+It is assumed you have extracted/cloned the repository into a
+directory of your choice. The name of this directory is called
+"<base>" in all following instructions. 
+
 ### Create local settings file
 
-Change into the "app/" folder and copy the template file:
+Change into the "<base>/app/" folder and copy the template file:
 
     $ cp tpl.settings_personal.py settings_personal.py
    
 Have a look at the file but don't change anything yet. 
 
 ### Create missing directories
+
+Change into the "<base>/" folder 
 
     $  mkdir -p database crypto/keys
     $  for p1 in 0 1 2 3 4 5 6 7 8 9 A B C D E F; do
@@ -84,8 +92,9 @@ Have a look at the file but don't change anything yet.
 
 ### Create system keys
 
-Cange into the "crypto/" folder and use GnuPG 1.4 to create mandatory system
-keys; make sure you remember the passwords you assign to the private keys!
+Change into the "<base>/crypto/" folder and use GnuPG 1.4 to create mandatory
+system keys; make sure you remember the passwords you assign to the private
+keys!
 
     $ gpg --home . --gen-key [Create RSA-1024 key for mail manager]
     $ gpg --home . --gen-key [Create RSA-1024 key for graph manager]
@@ -100,20 +109,21 @@ keys; make sure you remember the passwords you assign to the private keys!
 
 ### Generate a file for hash salts
 
-Change to the "app/" folder and generate a random salts file:
+Change to the "<base>/app/" folder and generate a random salts file:
 
     $ dd if=/dev/urandom of=salts bs=1 count=1048599
 
 ### Compile and install additional modules
 
-Change into the "modules/hec/" folder and run:
+Change into the "<base>/modules/hec/" folder and run:
 
     $ sudo python setup.py install
 
 RUNNING
 -------    
 
-To start with a new and empty database and clean crypto folder, run:
+Change to the "<base>/app/" folder. To start with a new and empty database and
+clean crypto folder, run:
 
     $ ./clean_run.sh
 
