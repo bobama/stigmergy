@@ -7,7 +7,7 @@ Log into Debian as a normal user and perform the following steps
 to setup an environment capable of running the "stigmergy"
 application under that account: 
 
-$ sudo aptitude zlib1g-dev curl libgmp3-dev sqlite libsqlite3-dev
+$ sudo aptitude install zlib1g-dev curl libgmp3-dev sqlite libsqlite3-dev
 $ sudo easy_install pythonbrew
 $ pythonbrew_install
 $ [change .bashrc]
