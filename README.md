@@ -29,17 +29,17 @@ intruders and adversaries.
 
 This goal is achieved by different means:
     
-    1. All information of a user is encrypted and is visible only to the user
-       and the assigned contacts. Nobody else can read the information!
+1. All information of a user is encrypted and is visible only to the user
+   and the assigned contacts. Nobody else can read the information!
        
-    2. The layout of the connections of the network (who is in contact with
-       whom) is also hidden. No contact of a user can find out which other
-       contacts are  maintained by the user. A friend of a friend is not
-       necessarily a friend!
+2. The layout of the connections of the network (who is in contact with
+   whom) is also hidden. No contact of a user can find out which other
+   contacts are  maintained by the user. A friend of a friend is not
+   necessarily a friend!
        
-    3. Even if a server is seized by an adversary the information of the
-       individual user and the network graph are protected and can't be
-       reconstructed from the data visible on the server.
+3. Even if a server is seized by an adversary the information of the
+   individual user and the network graph are protected and can't be
+   reconstructed from the data visible on the server.
 
 Unlike other social networking platforms like Facebook or Google+, the number
 of contacts you have in "Stigmergy" is limited - and you get contacts assigned
@@ -58,12 +58,15 @@ INSTALL
 
 You need the following base packages installed:
     
-* Python 2.7
-* Django 1.4 with django-simple-captcha
+* Python 2.7 (with modules "pycrypto", "pysqlite")
+* Django 1.4 (with module "django-simple-captcha")
 * GnuPG 1.4
+* SQLite3
+* Development libraries:
+    * GMP (GNU Multiple Precision Arithmetic Library)
 
-Additional Python modules may be required depending on your local
-installation. 
+Additional Python modules may be required depending on your local installation.
+See the INSTALL.* files in the "docs/" folder for detailed information. 
 
 ### Base directory
 
@@ -122,7 +125,7 @@ Change into the "${base}/modules/hec/" folder and run:
 RUNNING
 -------    
 
-Change to the "${base}/app/" folder. To start with a new and empty database and
+Change to the "${base}/test/" folder. To start with a new and empty database and
 clean crypto folder, run:
 
     $ ./clean_run.sh
